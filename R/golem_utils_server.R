@@ -61,3 +61,93 @@ drop_nulls <- function(x) {
 #' @noRd
 rv <- function(...) shiny::reactiveValues(...)
 rvtl <- function(...) shiny::reactiveValuesToList(...)
+
+# Get input IDs -----------------------------------------------------------
+
+get_input_ids <- function(
+    input_id_prefix = "group_by_input",
+    input_id_pattern = "^{input_id_prefix}" %>% stringr::str_glue(),
+    sort = FALSE,
+    .id = NULL
+) {
+    shiny::moduleServer(.id, function(input, output, session) {
+        ns <- session$ns
+        reactive({
+            input %>%
+                names() %>%
+                stringr::str_subset(input_id_pattern) %>% {
+                    if (sort) {
+                        sort(.)
+                    } else {
+                        .
+                    }
+                }
+        })
+    })
+}
+
+# Get input values --------------------------------------------------------
+
+get_input_values <- function(
+    input_ids,
+    sort = FALSE,
+    .id = NULL
+) {
+    shiny::moduleServer(.id, function(input, output, session) {
+        ns <- session$ns
+        reactive({
+            input_ids <- input_ids()
+            if (length(input_ids)) {
+                input_ids %>% {
+                    if (sort) {
+                        sort(.)
+                    } else {
+                        .
+                    }
+                } %>%
+                    purrr::map(~input[[.]]) %>%
+                    purrr::set_names(input_ids) %>%
+                    drop::drop_null() %>% # Very important! That's why we use 'map()' instead of 'map_chr()'
+                    unlist()
+            } else {
+                NULL
+            }
+        })
+    })
+}
+
+# Handle column values ----------------------------------------------------------
+
+handle_col_values <- function(
+    r_data,
+    input_values = list(),
+    .id = NULL
+) {
+    shiny::moduleServer(.id, function(input, output, session) {
+        ns <- session$ns
+
+        names <- r_data() %>% names()
+
+        if (length(input_values)) {
+            names[!(names %in% input_values)]
+        } else {
+            names
+        }
+    })
+}
+
+# Derive input ID from button ID ------------------------------------------
+
+derive_input_id_from_button_id <- function(
+    button_id,
+    button_prefix = "del_",
+    .id = NULL
+) {
+    shiny::moduleServer(.id, function(input, output, session) {
+        ns <- session$ns
+
+        button_id %>%
+            stringr::str_remove(
+                "(?<=^{ns('')}){button_prefix}" %>% stringr::str_glue())
+    })
+}
