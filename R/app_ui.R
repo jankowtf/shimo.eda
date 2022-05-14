@@ -5,14 +5,68 @@
 #' @import shiny
 #' @noRd
 app_ui <- function(request) {
-  tagList(
-    # Leave this function for adding external resources
-    golem_add_external_resources(),
-    # Your application UI logic
-    fluidPage(
-      h1("shimo.eda")
+    shiny::tagList(
+        # Leave this function for adding external resources
+        golem_add_external_resources(),
+        shinydashboardPlus::dashboardPage(
+            # title = "Demo",
+            skin = "red",
+            options = list(
+                sidebarExpandOnHover = TRUE
+            ),
+            header = shinydashboardPlus::dashboardHeader(
+                title = "Demo",
+                titleWidth = 100,
+                fixed = TRUE,
+
+                leftUi = htmltools::tagList(
+                )
+            ),
+            sidebar = shinydashboardPlus::dashboardSidebar(
+                id = "sidebar",
+                width = 300,
+                shinydashboard::sidebarMenu(
+                    id = "tabs",
+
+                    # --- Select ---
+                    shinydashboard::menuItem(
+                        "Select",
+                        tabName = "select",
+                        icon = icon("filter")
+                    ),
+
+                    # --- Freq table ---
+                    shinydashboard::menuItem(
+                        "Frequency table",
+                        tabName = "freq_table",
+                        icon = icon("table")
+                    )
+                )
+            ),
+            body = shinydashboard::dashboardBody(
+                shinyjs::useShinyjs(),
+                shinydashboard::tabItems(
+                    # --- Select ---
+                    shinydashboard::tabItem(
+                        tabName = "select",
+                        tabitem_vertical_space(2),
+                        h3("Select"),
+                        mod_eda_select_ui(id = NULL)
+                    ),
+
+                    # --- Freq table ---
+                    shinydashboard::tabItem(
+                        tabName = "freq_table",
+                        br(),
+                        br(),
+                        h3("Frequency tables"),
+                        mod_eda_freq_table_ui(id = NULL)
+                    )
+                )
+            ),
+            controlbar = shinydashboardPlus::dashboardControlbar()
+        )
     )
-  )
 }
 
 #' Add external Resources to the Application

@@ -48,8 +48,8 @@ mod_eda_select_ui <- function(
         fluidRow(
             # column(
             shinydashboardPlus::box(
-                width = select_width,
-                title = select_title,
+                width = data_width,
+                title = data_title,
                 collapsible = TRUE,
                 DT::DTOutput(ns("select_tbl"))
             )

@@ -151,3 +151,10 @@ derive_input_id_from_button_id <- function(
                 "(?<=^{ns('')}){button_prefix}" %>% stringr::str_glue())
     })
 }
+
+# Vertical space ----------------------------------------------------------
+
+tabitem_vertical_space <- function(times = 3) {
+    1:times %>% purrr::map(~tags$br()) %>%
+        tagList()
+}
