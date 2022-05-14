@@ -10,4 +10,3 @@ my_ui <- fluidPage(
 )
 
 my_ui
-
