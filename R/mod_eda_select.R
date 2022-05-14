@@ -7,6 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
+#' @export
 mod_eda_select_ui <- function(
     id = "eda_select",
     select_title = "Select columns",
@@ -63,6 +64,7 @@ mod_eda_select_ui <- function(
 #' @param id [[character]] Module ID
 #'
 #' @noRd
+#' @export
 mod_eda_select_server <- function(
     id = "eda_select",
     r_data,
