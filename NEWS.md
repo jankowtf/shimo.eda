@@ -1,3 +1,11 @@
+# shimo.eda 0.0.0.9004 (2022-05-14)
+
+Outer box
+
+- Added optional boxes for modules `mod_eda_select.R` and `mod_eda_freq_table.R`
+
+----------
+
 # shimo.eda 0.0.0.9002 (2022-05-14)
 
 Bugfix mod_eda_select.R

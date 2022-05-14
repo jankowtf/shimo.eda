@@ -1,10 +1,20 @@
 #' export UI Function
 #'
 #' @param id [[character]] Module ID
+#' @param grouping_title
+#' @param grouping_width
+#' @param grouping_button_label
+#' @param grouping_button_class
+#' @param grouping_button_style
+#' @param grouping_button_icon
+#' @param grouping_button_width
+#' @param freq_title
+#' @param freq_width
+#' @param outer_box [[logical]] Wrap in outer box yes/no
+#' @param outer_title
+#' @param outer_width
 #'
 #' @description A shiny Module.
-#'
-#' @noRd
 #'
 #' @importFrom shiny NS tagList
 #' @export
@@ -20,13 +30,17 @@ mod_eda_freq_table_ui <- function(
     grouping_button_width = 190,
     # --- Freq table
     freq_title = "Frequency table",
-    freq_width = 12
+    freq_width = 12,
+    # --- Outer
+    outer_box = FALSE,
+    outer_title = "Frequency table",
+    outer_width = 12
 ) {
     ns <- NS(id)
 
     shiny::selectInput("test", label = NULL, choices = letters)
 
-    tagList(
+    ui <- tagList(
         fluidRow(
             # column(
             shinydashboardPlus::box(
@@ -59,13 +73,26 @@ mod_eda_freq_table_ui <- function(
         tags$script(src = "shimo.eda.js"),
         tags$script(paste0("shimo_eda_mod_freq_table_js('", ns(''), "')"))
     )
+
+    if (outer_box) {
+        fluidRow(
+            shinydashboardPlus::box(
+                title = tags$b(outer_title),
+                width = outer_width,
+                collapsible = TRUE,
+                ui
+            )
+        )
+    } else {
+        ui
+    }
 }
 
 #' export Server Function
 #'
 #' @param id [[character]] Module ID
+#' @param r_data [[reactive]] Reactive function that serves data
 #'
-#' @noRd
 #' @export
 mod_eda_freq_table_server <- function(
     id = NULL,

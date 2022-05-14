@@ -31,15 +31,30 @@ app_ui <- function(request) {
                     # --- Select ---
                     shinydashboard::menuItem(
                         "Select",
-                        tabName = "select",
-                        icon = icon("filter")
+                        icon = icon("filter"),
+                        startExpanded = TRUE,
+                        shinydashboard::menuSubItem("Separate boxes",
+                            tabName = "select", icon = icon("arrow-right")),
+                        shinydashboard::menuSubItem("Enclosing box",
+                            tabName = "select_outer", icon = icon("arrow-right"))
+                    ),
+                    shinyjs::hidden(
+                        shinydashboard::menuItem("select_hidden",
+                            tabName = "select_hidden", selected = TRUE)
                     ),
 
                     # --- Freq table ---
                     shinydashboard::menuItem(
                         "Frequency table",
-                        tabName = "freq_table",
-                        icon = icon("table")
+                        icon = icon("table"),
+                        shinydashboard::menuSubItem("Separate boxes",
+                            tabName = "freq_table", icon = icon("arrow-right")),
+                        shinydashboard::menuSubItem("Enclosing box",
+                            tabName = "freq_table_outer", icon = icon("arrow-right"))
+                    ),
+                    shinyjs::hidden(
+                        shinydashboard::menuItem("freq_table_hidden",
+                            tabName = "freq_table_hidden")
                     )
                 )
             ),
@@ -48,19 +63,40 @@ app_ui <- function(request) {
                 shinydashboard::tabItems(
                     # --- Select ---
                     shinydashboard::tabItem(
+                        tabName = "select_hidden",
+                        shimo.eda::tabitem_vertical_space(2),
+                        h3("Select (click subitem on the left)")
+                    ),
+                    shinydashboard::tabItem(
                         tabName = "select",
                         tabitem_vertical_space(2),
                         h3("Select"),
                         mod_eda_select_ui(id = NULL)
                     ),
+                    shinydashboard::tabItem(
+                        tabName = "select_outer",
+                        tabitem_vertical_space(2),
+                        h3("Select with outer box"),
+                        mod_eda_select_ui(id = "select_outer", outer_box = TRUE)
+                    ),
 
                     # --- Freq table ---
                     shinydashboard::tabItem(
+                        tabName = "freq_table_hidden",
+                        shimo.eda::tabitem_vertical_space(2),
+                        h3("Frequency table (click subitem on the left)")
+                    ),
+                    shinydashboard::tabItem(
                         tabName = "freq_table",
-                        br(),
-                        br(),
-                        h3("Frequency tables"),
-                        mod_eda_freq_table_ui(id = NULL)
+                        tabitem_vertical_space(2),
+                        h3("Frequency table"),
+                        mod_eda_freq_table_ui(id = "freq_table")
+                    ),
+                    shinydashboard::tabItem(
+                        tabName = "freq_table_outer",
+                        tabitem_vertical_space(2),
+                        h3("Frequency table with outer box"),
+                        mod_eda_freq_table_ui(id = "freq_table_outer", outer_box = TRUE)
                     )
                 )
             ),
