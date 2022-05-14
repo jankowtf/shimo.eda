@@ -7,6 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
+#' @export
 mod_eda_freq_table_ui <- function(
     id = NULL,
     # --- Grouping
@@ -65,6 +66,7 @@ mod_eda_freq_table_ui <- function(
 #' @param id [[character]] Module ID
 #'
 #' @noRd
+#' @export
 mod_eda_freq_table_server <- function(
     id = NULL,
     r_data
