@@ -154,6 +154,18 @@ derive_input_id_from_button_id <- function(
 
 # Vertical space ----------------------------------------------------------
 
+#' Add vertical space for `tabItem`
+#'
+#' Useful when using [shinyDashboard](https://github.com/rstudio/shinydashboard)
+#'
+#' @param times [[integer]] Number of `tag$br()` to set
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' tabitem_vertical_space()
+#' tabitem_vertical_space(2)
 tabitem_vertical_space <- function(times = 3) {
     1:times %>% purrr::map(~tags$br()) %>%
         tagList()
