@@ -94,12 +94,16 @@ mod_eda_select_ui <- function(
 #' @param id [[character]] Module ID
 #' @param r_data
 #' @param input_id_prefix
+#' @param dt_bundle_buttons [[function]] Seet [[dti::dt_bundle_buttons]]
+#' @param dt_bundle_internationalization [[function]] Seet [[dti::dt_bundle_internationalization]]
 #'
 #' @export
 mod_eda_select_server <- function(
     id = "eda_select",
     r_data,
-    input_id_prefix = "select_input"
+    input_id_prefix = "select_input",
+    dt_bundle_buttons = dti::dt_bundle_buttons_en,
+    dt_bundle_internationalization = dti::dt_bundle_internationalization_en
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
@@ -116,9 +120,6 @@ mod_eda_select_server <- function(
             input_id_prefix = input_id_prefix
         )
 
-        # output$select_ui <- renderUI({
-        #     create_select_ui()
-        # })
         render_select_ui(id = NULL, create_select_ui = create_select_ui)
 
         # --- Remove select UI ---
@@ -129,7 +130,9 @@ mod_eda_select_server <- function(
             id = NULL,
             r_data = r_data,
             input_ids = input_ids,
-            input_values = input_values
+            input_values = input_values,
+            dt_bundle_buttons = dt_bundle_buttons,
+            dt_bundle_internationalization = dt_bundle_internationalization
         )
     })
 }
@@ -294,16 +297,50 @@ render_select_ui <- function(
 
 # Render data table -------------------------------------------------------
 
+#' Title
+#'
+#' @param id
+#' @param r_data
+#' @param input_ids
+#' @param input_values
+#' @param buttons_language
+#'
+#' @return
+#'
+#' @examples
 render_select_data_table <- function(
     id = NULL,
     r_data,
     input_ids,
-    input_values
+    input_values,
+    dt_bundle_buttons = dti::dt_bundle_buttons_en,
+    dt_bundle_internationalization = dti::dt_bundle_internationalization_en
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
 
-        output$select_tbl <- DT::renderDT({
+        # output$select_tbl <- DT::renderDT({
+        #     data <- r_data()
+        #
+        #     group_by_ids <- input_ids()
+        #     if (length(group_by_ids)) {
+        #         cols <- input_values() %>% unname() %>% dplyr::syms()
+        #         if (length(cols)) {
+        #
+        #             # data %>%
+        #             #     wrang::wr_freq_table(!!!cols)
+        #             data %>%
+        #                 dplyr::select(!!!cols)
+        #         } else {
+        #             data
+        #         }
+        #     } else {
+        #         data
+        #     }
+        # })
+
+        # Transform
+        r_data_2 <- reactive({
             data <- r_data()
 
             group_by_ids <- input_ids()
@@ -322,5 +359,18 @@ render_select_data_table <- function(
                 data
             }
         })
+
+        # Render
+        dti::mod_render_dt_server(
+            id = id,
+            output_id = "select_tbl",
+            data = r_data_2,
+            scrollY = 300,
+            left = 1,
+            .bundles = list(
+                dt_bundle_buttons(),
+                dt_bundle_internationalization()
+            )
+        )
     })
 }

@@ -1,0 +1,12 @@
+---
+title: "Dev notebook"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Links
+
+- https://www.garrickadenbuie.com/blog/shiny-tip-option-where-to-run/

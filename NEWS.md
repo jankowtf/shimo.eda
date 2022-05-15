@@ -1,3 +1,13 @@
+# shimo.eda 0.0.0.9005 (2022-05-15)
+
+Internationalization
+
+- Added internationalization arguments (routed down to `dti` functions) to:
+    - `mod_eda_select_server()`
+    - `mod_eda_freq_table_server()`
+
+----------
+
 # shimo.eda 0.0.0.9004 (2022-05-14)
 
 Outer box

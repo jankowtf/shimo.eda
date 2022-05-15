@@ -181,6 +181,31 @@
         "yaml"
       ]
     },
+    "confx": {
+      "Package": "confx",
+      "Version": "0.0.0.9024",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "rappster",
+      "RemoteRepo": "confx",
+      "RemoteRef": "master",
+      "RemoteSha": "e53517faa50f118ade6182c7062c5e5f0d0bc99b",
+      "Hash": "afb4cefbe931e7ad3d4338d9befed05d",
+      "Requirements": [
+        "config",
+        "fs",
+        "here",
+        "lifecycle",
+        "magrittr",
+        "pkgload",
+        "purrr",
+        "rlang",
+        "stringr",
+        "usethis",
+        "valid"
+      ]
+    },
     "cpp11": {
       "Package": "cpp11",
       "Version": "0.4.2",
@@ -312,19 +337,43 @@
     },
     "drop": {
       "Package": "drop",
-      "Version": "0.0.0.9002",
+      "Version": "0.0.0.9003",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "rappster",
       "RemoteRepo": "drop",
       "RemoteRef": "main",
-      "RemoteSha": "050fc11999a87880052f6d52533e18749ee3d70f",
-      "Hash": "4cc71a49a20c2416046111e6369f202e",
+      "RemoteSha": "6c09d704c5f7ac64b518679fddb08d251256dd3e",
+      "Hash": "bf01ad2dc5e0ff8a2c2da8533e1327db",
       "Requirements": [
         "lifecycle",
         "magrittr",
         "rrapply"
+      ]
+    },
+    "dti": {
+      "Package": "dti",
+      "Version": "0.0.0.9011",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "rappster",
+      "RemoteRepo": "dti",
+      "RemoteRef": "main",
+      "RemoteSha": "3f74633ff59cd9fd277dfe1478e7aa0cf3585d52",
+      "Remotes": "rappster/valid, rappster/confx, rappster/drop",
+      "Hash": "e5fa941078597e8bb7fc7b89cc136dbe",
+      "Requirements": [
+        "DT",
+        "assertthat",
+        "confx",
+        "drop",
+        "lifecycle",
+        "logger",
+        "magrittr",
+        "snakecase",
+        "valid"
       ]
     },
     "ellipsis": {
@@ -630,6 +679,14 @@
         "glue",
         "rlang"
       ]
+    },
+    "logger": {
+      "Package": "logger",
+      "Version": "0.2.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "c269b06beb2bbadb0d058c0e6fa4ec3d",
+      "Requirements": []
     },
     "magrittr": {
       "Package": "magrittr",
@@ -1024,6 +1081,27 @@
         "cli"
       ]
     },
+    "shimo.eda": {
+      "Package": "shimo.eda",
+      "Version": "0.0.0.9003",
+      "Source": "unknown",
+      "Remotes": "rappster/drop, rappster/wrang, RInterface/shinydashboardPlus",
+      "Hash": "eeed71b03b808a0756fd99fa9725e874",
+      "Requirements": [
+        "DT",
+        "config",
+        "dplyr",
+        "drop",
+        "golem",
+        "lifecycle",
+        "magrittr",
+        "shiny",
+        "shinyWidgets",
+        "shinydashboardPlus",
+        "shinyjs",
+        "wrang"
+      ]
+    },
     "shiny": {
       "Package": "shiny",
       "Version": "1.7.1",
@@ -1110,6 +1188,17 @@
         "digest",
         "jsonlite",
         "shiny"
+      ]
+    },
+    "snakecase": {
+      "Package": "snakecase",
+      "Version": "0.11.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "4079070fc210c7901c0832a3aeab894f",
+      "Requirements": [
+        "stringi",
+        "stringr"
       ]
     },
     "sourcetools": {
@@ -1273,6 +1362,21 @@
       "Repository": "CRAN",
       "Hash": "f1cb46c157d080b729159d407be83496",
       "Requirements": []
+    },
+    "valid": {
+      "Package": "valid",
+      "Version": "0.0.0.9008",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "rappster",
+      "RemoteRepo": "valid",
+      "RemoteRef": "main",
+      "RemoteSha": "ea9ef70f95f7c105bd93f7830bf54c06a610629b",
+      "Hash": "e7add91c4bf11182eec5169681982fac",
+      "Requirements": [
+        "magrittr"
+      ]
     },
     "vctrs": {
       "Package": "vctrs",

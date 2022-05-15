@@ -92,11 +92,15 @@ mod_eda_freq_table_ui <- function(
 #'
 #' @param id [[character]] Module ID
 #' @param r_data [[reactive]] Reactive function that serves data
+#' @param dt_bundle_buttons [[function]] Seet [[dti::dt_bundle_buttons]]
+#' @param dt_bundle_internationalization [[function]] Seet [[dti::dt_bundle_internationalization]]
 #'
 #' @export
 mod_eda_freq_table_server <- function(
     id = NULL,
-    r_data
+    r_data,
+    dt_bundle_buttons = dti::dt_bundle_buttons_en,
+    dt_bundle_internationalization = dti::dt_bundle_internationalization_en
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
@@ -127,7 +131,9 @@ mod_eda_freq_table_server <- function(
             id = NULL,
             r_data = r_data,
             input_ids = input_ids,
-            input_values = input_values
+            input_values = input_values,
+            dt_bundle_buttons = dt_bundle_buttons,
+            dt_bundle_internationalization = dt_bundle_internationalization
         )
     })
 }
@@ -333,12 +339,32 @@ render_grouping_data_table <- function(
     r_data,
     input_ids,
     input_values,
-    output_id = "grouping_tbl"
+    output_id = "grouping_tbl",
+    dt_bundle_buttons = dti::dt_bundle_buttons_en,
+    dt_bundle_internationalization = dti::dt_bundle_internationalization_en
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
 
-        output[[output_id]] <- DT::renderDT({
+        # output[[output_id]] <- DT::renderDT({
+        #     data <- r_data()
+        #
+        #     input_ids <- input_ids()
+        #     if (length(input_ids)) {
+        #         cols <- input_values() %>% unname() %>% dplyr::syms()
+        #         if (length(cols)) {
+        #             data %>%
+        #                 wrang::wr_freq_table(!!!cols)
+        #         } else {
+        #             data
+        #         }
+        #     } else {
+        #         data
+        #     }
+        # })
+
+        # Transform
+        r_data_2 <- reactive({
             data <- r_data()
 
             input_ids <- input_ids()
@@ -354,5 +380,18 @@ render_grouping_data_table <- function(
                 data
             }
         })
+
+        # Render
+        dti::mod_render_dt_server(
+            id = id,
+            output_id = output_id,
+            data = r_data_2,
+            scrollY = 300,
+            left = 1,
+            .bundles = list(
+                dt_bundle_buttons(),
+                dt_bundle_internationalization()
+            )
+        )
     })
 }
