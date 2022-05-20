@@ -1,3 +1,25 @@
+# shimo.eda 0.0.0.9008 (2022-05-21)
+
+Dropdown menu
+
+- Added `shinyWidgets::dropdownButton()` in `mod_eda_freq_table`
+
+----------
+
+# shimo.eda 0.0.0.9007 (2022-05-20)
+
+- Changed `tabitem_vertical_space()` to `vertical_space()`
+
+----------
+
+# shimo.eda 0.0.0.9006 (2022-05-17)
+
+Button color and inputs for Y
+
+- Changed button color to `#0c3992`
+
+----------
+
 # shimo.eda 0.0.0.9005 (2022-05-15)
 
 Internationalization

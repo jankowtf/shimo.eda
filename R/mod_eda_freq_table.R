@@ -1,3 +1,5 @@
+# UI ----------------------------------------------------------------------
+
 #' export UI Function
 #'
 #' @param id [[character]] Module ID
@@ -8,7 +10,7 @@
 #' @param grouping_button_style
 #' @param grouping_button_icon
 #' @param grouping_button_width
-#' @param freq_title
+#' @param freq.box_title
 #' @param freq_width
 #' @param outer_box [[logical]] Wrap in outer box yes/no
 #' @param outer_title
@@ -24,13 +26,20 @@ mod_eda_freq_table_ui <- function(
     grouping_title = "Group data",
     grouping_width = 12,
     grouping_button_label = "Add group-by statement",
-    grouping_button_class = "btn-success",
-    grouping_button_style = "color: #fff;",
+    grouping_button_class = "btn-primary",
+    # grouping_button_style = "background: #0c3992;color: #fffff;",
     grouping_button_icon = icon('plus'),
     grouping_button_width = 190,
     # --- Freq table
-    freq_title = "Frequency table",
-    freq_width = 12,
+    freq.box_title = "Frequency table",
+    freq.box_width = 12,
+    freq.box_title_width= 200,
+    freq.dropdown_title = "Column names",
+    freq.dropdown_width= 150,
+    freq.dropdown_col_n_abs_label = "Name for abs. count",
+    freq.dropdown_col_n_rel_label = "Name for rel. count",
+    freq.col_n_abs = "n_abs",
+    freq.col_n_rel = "n_rel",
     # --- Outer
     outer_box = FALSE,
     outer_title = "Frequency table",
@@ -42,7 +51,6 @@ mod_eda_freq_table_ui <- function(
 
     ui <- tagList(
         fluidRow(
-            # column(
             shinydashboardPlus::box(
                 title = grouping_title,
                 width = grouping_width,
@@ -51,23 +59,62 @@ mod_eda_freq_table_ui <- function(
                     ns("add_group_by"),
                     label = grouping_button_label,
                     class = grouping_button_class,
-                    style = grouping_button_style,
+                    # style = grouping_button_style,
                     icon = grouping_button_icon,
                     width = grouping_button_width
                 ),
-                tags$br(),
-                tags$br(),
-                uiOutput(ns("grouping_ui"))
+                shimo.eda::vertical_space(2),
+                column(
+                    width = 3,
+                    uiOutput(ns("grouping_ui"))
+                )
+                # sidebar = shinydashboardPlus::boxSidebar(
+                #     id = ns("boxsidebar"),
+                #     width = 25,
+                #     startOpen = TRUE
+                #     # textInput(ns("col_n_abs"), label = NULL,
+                #     #     value = freq.col_n_abs),
+                #     # textInput(ns("col_n_rel"), label = NULL,
+                #     #     value = freq.col_n_rel)
+                # )
             )
         ),
         fluidRow(
-            # column(
             shinydashboardPlus::box(
-                title = freq_title,
-                width = freq_width,
+                # title = freq.box_title,
+                title = div(
+                    div(
+                        style = "display: inline-block;vertical-align:middle;width:{freq.box_title_width};" %>%
+                            stringr::str_glue(),
+                        h4(freq.box_title)
+                    ),
+                    shiny::div(
+                        style = "display: inline-block;vertical-align:middle;width:{freq.dropdown_width}px;" %>%
+                            stringr::str_glue(),
+                        shinyWidgets::dropdownButton(
+                            h4(freq.dropdown_title),
+                            textInput(ns("col_n_abs"),
+                                label = freq.dropdown_col_n_abs_label,
+                                value = freq.col_n_abs),
+                            textInput(ns("col_n_rel"),
+                                label = freq.dropdown_col_n_rel_label,
+                                value = freq.col_n_rel),
+                            circle = TRUE,
+                            size = "xs",
+                            status = "danger",
+                            icon = icon("gear"),
+                            width = "150px",
+                            tooltip = shinyWidgets::tooltipOptions(
+                                title = "Click to see inputs")
+                        )
+                    )
+                ),
+                width = freq.box_width,
                 collapsible = TRUE,
+
+                shimo.eda::vertical_space(1),
                 DT::DTOutput(ns("grouping_tbl"))
-            )
+            ),
         ),
         # sortable::sortable_js(ns("group_by_ui")),
         tags$script(src = "shimo.eda.js"),
@@ -88,6 +135,8 @@ mod_eda_freq_table_ui <- function(
     }
 }
 
+# Server ------------------------------------------------------------------
+
 #' export Server Function
 #'
 #' @param id [[character]] Module ID
@@ -104,10 +153,6 @@ mod_eda_freq_table_server <- function(
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
-
-        # output$sortable_group_by_ui <- renderPrint({
-        #     input$group_by_ui
-        # })
 
         # --- Create UI ---
         input_ids <- get_input_ids(input_id_prefix = "grouping_input", sort = TRUE)
@@ -226,7 +271,7 @@ create_group_by_ui <- function(
                 select_existing,
                 select_new
             )
-        }, ignoreInit = TRUE)
+        }, ignoreInit = FALSE)
     })
 }
 
@@ -334,45 +379,56 @@ render_grouping_ui <- function(
 
 # Render data table -------------------------------------------------------
 
+#' Title
+#'
+#' @param id
+#' @param r_data
+#' @param input_ids
+#' @param input_values
+#' @param output_id
+#' @param freq_tab.col_n_abs
+#' @param freq_tab.col_n_rel
+#' @param freq_tab.sort
+#' @param dt_bundle_buttons
+#' @param dt_bundle_internationalization
+#'
+#' @return
+#' @export
+#'
+#' @examples
 render_grouping_data_table <- function(
     id = NULL,
     r_data,
     input_ids,
     input_values,
     output_id = "grouping_tbl",
+    freq_tab.col_n_abs = "col_n_abs",
+    freq_tab.col_n_rel = "col_n_rel",
+    freq_tab.sort = TRUE,
     dt_bundle_buttons = dti::dt_bundle_buttons_en,
     dt_bundle_internationalization = dti::dt_bundle_internationalization_en
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
 
-        # output[[output_id]] <- DT::renderDT({
-        #     data <- r_data()
-        #
-        #     input_ids <- input_ids()
-        #     if (length(input_ids)) {
-        #         cols <- input_values() %>% unname() %>% dplyr::syms()
-        #         if (length(cols)) {
-        #             data %>%
-        #                 wrang::wr_freq_table(!!!cols)
-        #         } else {
-        #             data
-        #         }
-        #     } else {
-        #         data
-        #     }
-        # })
-
-        # Transform
-        r_data_2 <- reactive({
+        # --- Transform
+        r_data_trans <- reactive({
             data <- r_data()
+            .col_n_abs <- input$col_n_abs
+            .col_n_rel <-  input$col_n_rel
+            # browser()
 
             input_ids <- input_ids()
             if (length(input_ids)) {
                 cols <- input_values() %>% unname() %>% dplyr::syms()
                 if (length(cols)) {
                     data %>%
-                        wrang::wr_freq_table(!!!cols)
+                        wrang::wr_freq_table(
+                            !!!cols,
+                            .col_n_abs = rlang::eval_bare(.col_n_abs),
+                            .col_n_rel = rlang::eval_tidy(.col_n_rel),
+                            .sort = freq_tab.sort
+                        )
                 } else {
                     data
                 }
@@ -381,11 +437,11 @@ render_grouping_data_table <- function(
             }
         })
 
-        # Render
+        # --- Render
         dti::mod_render_dt_server(
             id = id,
             output_id = output_id,
-            data = r_data_2,
+            data = r_data_trans,
             scrollY = 300,
             left = 1,
             .bundles = list(

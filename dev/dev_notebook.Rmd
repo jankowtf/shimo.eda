@@ -1,6 +1,8 @@
 ---
 title: "Dev notebook"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -10,3 +12,24 @@ knitr::opts_chunk$set(echo = TRUE)
 # Links
 
 - https://www.garrickadenbuie.com/blog/shiny-tip-option-where-to-run/
+
+```{r}
+x <- tibble::tribble(
+    ~department, ~attrition,
+    "A", "yes",
+    "B", "no",
+    "A", "no",
+    "A", "yes", 
+    "B", "yes",
+    "B", "yes", 
+    "B", "yes"
+)
+x %>% 
+    wrang::wr_freq_table(department, attrition, .digits_n_rel = 2)
+```
+
+```{r}
+renv::install("styler", "shinyAce", "shinyjqui", "shinyEffects")
+shinydashboardPlus::shinydashboardPlusGallery()
+```
+

@@ -1,7 +1,7 @@
 Type: Package
 Package: shimo.eda
 Title: Shiny modules: EDA
-Version: 0.0.0.9005
+Version: 0.0.0.9008
 Authors@R: 
     person("Janko", "Thyson", , "janko@rappster.io", role = c("cre", "aut"))
 Description: Shiny modules for EDA.
@@ -15,26 +15,24 @@ Imports:
     DT,
     dti (>= 0.0.0.9011),
     golem,
+    htmltools,
     lifecycle,
     magrittr,
+    purrr,
     shiny,
+    shinydashboard,
     shinydashboardPlus (>= 2.0.4.9000),
     shinyjs,
-    shinyWidgets,
+    stringr,
     wrang (>= 0.0.1.9003)
 Suggests: 
-    devtools,
-    here,
-    rmarkdown,
-    roxygen2,
-    roxygen2md,
     spelling,
     testthat (>= 3.0.0)
 Remotes: 
     rappster/drop,
+    rappster/dti,
     rappster/wrang,
-    RInterface/shinydashboardPlus,
-    rappster/dti
+    RInterface/shinydashboardPlus
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US

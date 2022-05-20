@@ -64,18 +64,18 @@ app_ui <- function(request) {
                     # --- Select ---
                     shinydashboard::tabItem(
                         tabName = "select_hidden",
-                        shimo.eda::tabitem_vertical_space(2),
+                        vertical_space(2),
                         h3("Select (click subitem on the left)")
                     ),
                     shinydashboard::tabItem(
                         tabName = "select",
-                        tabitem_vertical_space(2),
+                        vertical_space(2),
                         h3("Select"),
                         mod_eda_select_ui(id = NULL)
                     ),
                     shinydashboard::tabItem(
                         tabName = "select_outer",
-                        tabitem_vertical_space(2),
+                        vertical_space(2),
                         h3("Select with outer box"),
                         mod_eda_select_ui(id = "select_outer", outer_box = TRUE)
                     ),
@@ -83,18 +83,18 @@ app_ui <- function(request) {
                     # --- Freq table ---
                     shinydashboard::tabItem(
                         tabName = "freq_table_hidden",
-                        shimo.eda::tabitem_vertical_space(2),
+                        shimo.eda::vertical_space(2),
                         h3("Frequency table (click subitem on the left)")
                     ),
                     shinydashboard::tabItem(
                         tabName = "freq_table",
-                        tabitem_vertical_space(2),
+                        vertical_space(2),
                         h3("Frequency table"),
                         mod_eda_freq_table_ui(id = "freq_table")
                     ),
                     shinydashboard::tabItem(
                         tabName = "freq_table_outer",
-                        tabitem_vertical_space(2),
+                        vertical_space(2),
                         h3("Frequency table with outer box"),
                         mod_eda_freq_table_ui(id = "freq_table_outer", outer_box = TRUE)
                     )
