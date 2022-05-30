@@ -1,3 +1,11 @@
+# shimo.eda 0.0.0.9009 (2022-05-25)
+
+Updated dependency `dti`
+
+- Update package dependency `dti` from `0.0.0.9011` to `0.0.0.9012`
+
+----------
+
 # shimo.eda 0.0.0.9008 (2022-05-21)
 
 Dropdown menu

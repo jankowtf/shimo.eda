@@ -1,7 +1,7 @@
 Type: Package
 Package: shimo.eda
 Title: Shiny modules: EDA
-Version: 0.0.0.9008
+Version: 0.0.0.9009
 Authors@R: 
     person("Janko", "Thyson", , "janko@rappster.io", role = c("cre", "aut"))
 Description: Shiny modules for EDA.
@@ -13,7 +13,7 @@ Imports:
     dplyr,
     drop (>= 0.0.0.9003),
     DT,
-    dti (>= 0.0.0.9011),
+    dti (>= 0.0.0.9012),
     golem,
     htmltools,
     lifecycle,
