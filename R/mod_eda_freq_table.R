@@ -63,7 +63,7 @@ mod_eda_freq_table_ui <- function(
                     icon = grouping_button_icon,
                     width = grouping_button_width
                 ),
-                shimo.eda::vertical_space(2),
+                vertical_space(2),
                 column(
                     width = 3,
                     uiOutput(ns("grouping_ui"))
@@ -112,7 +112,7 @@ mod_eda_freq_table_ui <- function(
                 width = freq.box_width,
                 collapsible = TRUE,
 
-                shimo.eda::vertical_space(1),
+                vertical_space(1),
                 DT::DTOutput(ns("grouping_tbl"))
             ),
         ),
@@ -141,15 +141,15 @@ mod_eda_freq_table_ui <- function(
 #'
 #' @param id [[character]] Module ID
 #' @param r_data [[reactive]] Reactive function that serves data
-#' @param dt_bundle_buttons [[function]] Seet [[dti::dt_bundle_buttons]]
-#' @param dt_bundle_internationalization [[function]] Seet [[dti::dt_bundle_internationalization]]
+#' @param dt_bundle_buttons [[function]] Seet [[dtf::dt_bundle_buttons]]
+#' @param dt_bundle_internationalization [[function]] Seet [[dtf::dt_bundle_internationalization]]
 #'
 #' @export
 mod_eda_freq_table_server <- function(
     id = NULL,
     r_data,
-    dt_bundle_buttons = dti::dt_bundle_buttons_en,
-    dt_bundle_internationalization = dti::dt_bundle_internationalization_en
+    dt_bundle_buttons = dtf::dt_bundle_buttons_en,
+    dt_bundle_internationalization = dtf::dt_bundle_internationalization_en
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
@@ -405,8 +405,8 @@ render_grouping_data_table <- function(
     freq_tab.col_n_abs = "col_n_abs",
     freq_tab.col_n_rel = "col_n_rel",
     freq_tab.sort = TRUE,
-    dt_bundle_buttons = dti::dt_bundle_buttons_en,
-    dt_bundle_internationalization = dti::dt_bundle_internationalization_en
+    dt_bundle_buttons = dtf::dt_bundle_buttons_en,
+    dt_bundle_internationalization = dtf::dt_bundle_internationalization_en
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
@@ -438,7 +438,7 @@ render_grouping_data_table <- function(
         })
 
         # --- Render
-        dti::mod_render_dt_server(
+        dtf::mod_render_dt_server(
             id = id,
             output_id = output_id,
             data = r_data_trans,

@@ -8,16 +8,16 @@ mod_eda_select_server(
   id = "eda_select",
   r_data,
   input_id_prefix = "select_input",
-  dt_bundle_buttons = dti::dt_bundle_buttons_en,
-  dt_bundle_internationalization = dti::dt_bundle_internationalization_en
+  dt_bundle_buttons = dtf::dt_bundle_buttons_en,
+  dt_bundle_internationalization = dtf::dt_bundle_internationalization_en
 )
 }
 \arguments{
 \item{id}{[\link{character}] Module ID}
 
-\item{dt_bundle_buttons}{[\link{function}] Seet [\link[dti:dt_bundle_buttons]{dti::dt_bundle_buttons}]}
+\item{dt_bundle_buttons}{[\link{function}] Seet [\link[dtf:dt_bundle_buttons]{dtf::dt_bundle_buttons}]}
 
-\item{dt_bundle_internationalization}{[\link{function}] Seet [\link[dti:dt_bundle_internationalization]{dti::dt_bundle_internationalization}]}
+\item{dt_bundle_internationalization}{[\link{function}] Seet [\link[dtf:dt_bundle_internationalization]{dtf::dt_bundle_internationalization}]}
 }
 \description{
 export Server Function

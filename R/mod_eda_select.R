@@ -94,16 +94,16 @@ mod_eda_select_ui <- function(
 #' @param id [[character]] Module ID
 #' @param r_data
 #' @param input_id_prefix
-#' @param dt_bundle_buttons [[function]] Seet [[dti::dt_bundle_buttons]]
-#' @param dt_bundle_internationalization [[function]] Seet [[dti::dt_bundle_internationalization]]
+#' @param dt_bundle_buttons [[function]] Seet [[dtf::dt_bundle_buttons]]
+#' @param dt_bundle_internationalization [[function]] Seet [[dtf::dt_bundle_internationalization]]
 #'
 #' @export
 mod_eda_select_server <- function(
     id = "eda_select",
     r_data,
     input_id_prefix = "select_input",
-    dt_bundle_buttons = dti::dt_bundle_buttons_en,
-    dt_bundle_internationalization = dti::dt_bundle_internationalization_en
+    dt_bundle_buttons = dtf::dt_bundle_buttons_en,
+    dt_bundle_internationalization = dtf::dt_bundle_internationalization_en
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
@@ -313,8 +313,8 @@ render_select_data_table <- function(
     r_data,
     input_ids,
     input_values,
-    dt_bundle_buttons = dti::dt_bundle_buttons_en,
-    dt_bundle_internationalization = dti::dt_bundle_internationalization_en
+    dt_bundle_buttons = dtf::dt_bundle_buttons_en,
+    dt_bundle_internationalization = dtf::dt_bundle_internationalization_en
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
@@ -361,7 +361,7 @@ render_select_data_table <- function(
         })
 
         # Render
-        dti::mod_render_dt_server(
+        dtf::mod_render_dt_server(
             id = id,
             output_id = "select_tbl",
             data = r_data_2,

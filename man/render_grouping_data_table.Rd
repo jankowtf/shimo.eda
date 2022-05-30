@@ -13,8 +13,8 @@ render_grouping_data_table(
   freq_tab.col_n_abs = "col_n_abs",
   freq_tab.col_n_rel = "col_n_rel",
   freq_tab.sort = TRUE,
-  dt_bundle_buttons = dti::dt_bundle_buttons_en,
-  dt_bundle_internationalization = dti::dt_bundle_internationalization_en
+  dt_bundle_buttons = dtf::dt_bundle_buttons_en,
+  dt_bundle_internationalization = dtf::dt_bundle_internationalization_en
 )
 }
 \arguments{

@@ -1,8 +1,19 @@
-# shimo.eda 0.0.0.9009 (2022-05-25)
+# shimo.eda 0.0.0.9010 (2022-05-30)
 
 Updated dependency `dti`
 
-- Update package dependency `dti` from `0.0.0.9011` to `0.0.0.9012`
+- Renamed package dependency from `dti` to `dtf`
+- Update package dependency `dtf` from `0.0.0.9012` to `0.0.0.9013` and declared
+it properly in `DESCRIPTION`
+- Cleaned up `renv` state
+
+----------
+
+# shimo.eda 0.0.0.9009 (2022-05-30)
+
+Updated dependency `dtf`
+
+- Update package dependency `dtf` from `0.0.0.9011` to `0.0.0.9012`
 
 ----------
 
@@ -32,7 +43,7 @@ Button color and inputs for Y
 
 Internationalization
 
-- Added internationalization arguments (routed down to `dti` functions) to:
+- Added internationalization arguments (routed down to `dtf` functions) to:
     - `mod_eda_select_server()`
     - `mod_eda_freq_table_server()`
 

@@ -7,8 +7,8 @@
 mod_eda_freq_table_server(
   id = NULL,
   r_data,
-  dt_bundle_buttons = dti::dt_bundle_buttons_en,
-  dt_bundle_internationalization = dti::dt_bundle_internationalization_en
+  dt_bundle_buttons = dtf::dt_bundle_buttons_en,
+  dt_bundle_internationalization = dtf::dt_bundle_internationalization_en
 )
 }
 \arguments{
@@ -16,9 +16,9 @@ mod_eda_freq_table_server(
 
 \item{r_data}{[\link{reactive}] Reactive function that serves data}
 
-\item{dt_bundle_buttons}{[\link{function}] Seet [\link[dti:dt_bundle_buttons]{dti::dt_bundle_buttons}]}
+\item{dt_bundle_buttons}{[\link{function}] Seet [\link[dtf:dt_bundle_buttons]{dtf::dt_bundle_buttons}]}
 
-\item{dt_bundle_internationalization}{[\link{function}] Seet [\link[dti:dt_bundle_internationalization]{dti::dt_bundle_internationalization}]}
+\item{dt_bundle_internationalization}{[\link{function}] Seet [\link[dtf:dt_bundle_internationalization]{dtf::dt_bundle_internationalization}]}
 }
 \description{
 export Server Function

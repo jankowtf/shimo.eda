@@ -352,18 +352,18 @@
         "rrapply"
       ]
     },
-    "dti": {
-      "Package": "dti",
-      "Version": "0.0.0.9012",
+    "dtf": {
+      "Package": "dtf",
+      "Version": "0.0.0.9013",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "rappster",
-      "RemoteRepo": "dti",
+      "RemoteRepo": "dtf",
       "RemoteRef": "main",
-      "RemoteSha": "083078e59b5381d09b1762d50bbeb60d55702df3",
+      "RemoteSha": "4decf6b36472b74d20624db1a25899aee6c983fd",
       "Remotes": "rappster/valid, rappster/confx, rappster/drop",
-      "Hash": "e0e21a8dc2dd3f924c60686952fb33ca",
+      "Hash": "5e1b92906a29b06cc769e42e0a42d30a",
       "Requirements": [
         "DT",
         "assertthat",
@@ -1079,27 +1079,6 @@
       "Hash": "3f9796a8d0a0e8c6eb49a4b029359d1f",
       "Requirements": [
         "cli"
-      ]
-    },
-    "shimo.eda": {
-      "Package": "shimo.eda",
-      "Version": "0.0.0.9003",
-      "Source": "unknown",
-      "Remotes": "rappster/drop, rappster/wrang, RInterface/shinydashboardPlus",
-      "Hash": "eeed71b03b808a0756fd99fa9725e874",
-      "Requirements": [
-        "DT",
-        "config",
-        "dplyr",
-        "drop",
-        "golem",
-        "lifecycle",
-        "magrittr",
-        "shiny",
-        "shinyWidgets",
-        "shinydashboardPlus",
-        "shinyjs",
-        "wrang"
       ]
     },
     "shiny": {

@@ -83,7 +83,7 @@ app_ui <- function(request) {
                     # --- Freq table ---
                     shinydashboard::tabItem(
                         tabName = "freq_table_hidden",
-                        shimo.eda::vertical_space(2),
+                        vertical_space(2),
                         h3("Frequency table (click subitem on the left)")
                     ),
                     shinydashboard::tabItem(
