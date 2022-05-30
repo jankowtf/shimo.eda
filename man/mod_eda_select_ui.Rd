@@ -18,13 +18,14 @@ mod_eda_select_ui(
   data_width = 12,
   outer_box = FALSE,
   outer_title = "Frequency table",
-  outer_width = 12
+  outer_width = 12,
+  verbose = FALSE
 )
 }
 \arguments{
 \item{id}{[\link{character}] Module ID}
 
-\item{outer_width}{}
+\item{verbose}{[\link{logical}] Tracing infos yes/no}
 }
 \description{
 A shiny Module.

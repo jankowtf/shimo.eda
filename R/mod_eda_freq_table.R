@@ -7,14 +7,21 @@
 #' @param grouping_width
 #' @param grouping_button_label
 #' @param grouping_button_class
-#' @param grouping_button_style
 #' @param grouping_button_icon
 #' @param grouping_button_width
 #' @param freq.box_title
-#' @param freq_width
 #' @param outer_box [[logical]] Wrap in outer box yes/no
 #' @param outer_title
 #' @param outer_width
+#' @param freq.box_width
+#' @param freq.box_title_width
+#' @param freq.dropdown_title
+#' @param freq.dropdown_width
+#' @param freq.dropdown_col_n_abs_label
+#' @param freq.dropdown_col_n_rel_label
+#' @param freq.col_n_abs
+#' @param freq.col_n_rel
+#' @param verbose [[logical]] Tracing infos yes/no
 #'
 #' @description A shiny Module.
 #'
@@ -43,9 +50,17 @@ mod_eda_freq_table_ui <- function(
     # --- Outer
     outer_box = FALSE,
     outer_title = "Frequency table",
-    outer_width = 12
+    outer_width = 12,
+    verbose = FALSE
 ) {
     ns <- NS(id)
+
+    shiny_trace_ns_ui(
+        fn_name = "mod_eda_freq_table_ui",
+        id_inner = "foo",
+        ns = ns,
+        verbose = verbose
+    )
 
     shiny::selectInput("test", label = NULL, choices = letters)
 
@@ -143,13 +158,15 @@ mod_eda_freq_table_ui <- function(
 #' @param r_data [[reactive]] Reactive function that serves data
 #' @param dt_bundle_buttons [[function]] Seet [[dtf::dt_bundle_buttons]]
 #' @param dt_bundle_internationalization [[function]] Seet [[dtf::dt_bundle_internationalization]]
+#' @param verbose [[logical]] Tracing infos yes/no
 #'
 #' @export
 mod_eda_freq_table_server <- function(
     id = NULL,
     r_data,
     dt_bundle_buttons = dtf::dt_bundle_buttons_en,
-    dt_bundle_internationalization = dtf::dt_bundle_internationalization_en
+    dt_bundle_internationalization = dtf::dt_bundle_internationalization_en,
+    verbose = FALSE
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
@@ -157,6 +174,12 @@ mod_eda_freq_table_server <- function(
         # --- Create UI ---
         input_ids <- get_input_ids(input_id_prefix = "grouping_input", sort = TRUE)
         input_values <- get_input_values(input_ids = input_ids)
+
+        shiny_trace_ns_server(
+            fn_name = "mod_eda_freq_table_server",
+            id_inner = input_ids,
+            verbose = verbose
+        )
 
         create_group_by_ui <- create_group_by_ui(
             r_data = r_data,

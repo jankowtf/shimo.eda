@@ -9,7 +9,8 @@ mod_eda_select_server(
   r_data,
   input_id_prefix = "select_input",
   dt_bundle_buttons = dtf::dt_bundle_buttons_en,
-  dt_bundle_internationalization = dtf::dt_bundle_internationalization_en
+  dt_bundle_internationalization = dtf::dt_bundle_internationalization_en,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -18,6 +19,8 @@ mod_eda_select_server(
 \item{dt_bundle_buttons}{[\link{function}] Seet [\link[dtf:dt_bundle_buttons]{dtf::dt_bundle_buttons}]}
 
 \item{dt_bundle_internationalization}{[\link{function}] Seet [\link[dtf:dt_bundle_internationalization]{dtf::dt_bundle_internationalization}]}
+
+\item{verbose}{[\link{logical}] Tracing infos yes/no}
 }
 \description{
 export Server Function

@@ -3,6 +3,8 @@ sass::sass(input = sass::sass_file("inst/app/www/custom.sass"), output = "inst/a
 
 # Set options here
 options(golem.app.prod = FALSE) # TRUE = production mode, FALSE = development mode
+logger::log_threshold(logger::TRACE)
+logger::log_layout(logger::layout_glue_colors)
 
 # Comment this if you don't want the app to be served on a random port
 options(shiny.port = httpuv::randomPort())

@@ -14,6 +14,7 @@
 #' @param outer_box
 #' @param outer_title
 #' @param outer_width
+#' @param verbose [[logical]] Tracing infos yes/no
 #'
 #' @description A shiny Module.
 #'
@@ -36,11 +37,19 @@ mod_eda_select_ui <- function(
     # --- Outer
     outer_box = FALSE,
     outer_title = "Frequency table",
-    outer_width = 12
+    outer_width = 12,
+    verbose = FALSE
 ) {
     ns <- NS(id)
 
-    shiny::selectInput("test", label = NULL, choices = letters)
+    shiny_trace_ns_ui(
+        fn_name = "mod_eda_select_ui",
+        id_inner = "foo",
+        ns = ns,
+        verbose = verbose
+    )
+
+    # shiny::selectInput("test", label = NULL, choices = letters)
 
     ui <- tagList(
         fluidRow(
@@ -96,6 +105,7 @@ mod_eda_select_ui <- function(
 #' @param input_id_prefix
 #' @param dt_bundle_buttons [[function]] Seet [[dtf::dt_bundle_buttons]]
 #' @param dt_bundle_internationalization [[function]] Seet [[dtf::dt_bundle_internationalization]]
+#' @param verbose [[logical]] Tracing infos yes/no
 #'
 #' @export
 mod_eda_select_server <- function(
@@ -103,7 +113,8 @@ mod_eda_select_server <- function(
     r_data,
     input_id_prefix = "select_input",
     dt_bundle_buttons = dtf::dt_bundle_buttons_en,
-    dt_bundle_internationalization = dtf::dt_bundle_internationalization_en
+    dt_bundle_internationalization = dtf::dt_bundle_internationalization_en,
+    verbose = FALSE
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
@@ -112,6 +123,12 @@ mod_eda_select_server <- function(
         # --- Create select UI ----
         input_ids <- get_input_ids(input_id_prefix = input_id_prefix, sort = TRUE)
         input_values <- get_input_values(input_ids = input_ids)
+
+        shiny_trace_ns_server(
+            fn_name = "mod_eda_select_server",
+            id_inner = input_ids,
+            verbose = verbose
+        )
 
         create_select_ui <- create_select_ui(
             r_data = r_data,

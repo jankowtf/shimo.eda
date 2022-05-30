@@ -1,9 +1,19 @@
+# shimo.eda 0.0.0.9015 (2022-05-30)
+
+Tracing shiny NS info
+
+- Modified `mod_ed_freq_table_ui`: uses `shiny_trace_ns_ui()`
+- Modified `mod_ed_freq_table_server`: uses `shiny_trace_ns_server()`
+- Modified `mod_ed_select_ui`: uses `shiny_trace_ns_ui()`
+- Modified `mod_ed_select_server`: uses `shiny_trace_ns_server()`
+
+----------
+
 # shimo.eda 0.0.0.9014 (2022-05-30)
 
 Updated dependency 'dtf' (0.0.0.9017)
 
 - Updated package dependency `dtf` from `0.0.0.9016` to `0.0.0.9017`
-
 
 ----------
 

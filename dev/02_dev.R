@@ -24,6 +24,8 @@ golem::add_module(name = "eda_select", with_test = TRUE)
 ## Add helper functions ----
 ## Creates fct_* and utils_*
 golem::add_fct("helpers", with_test = TRUE)
+golem::add_fct("shiny", with_test = TRUE)
+
 golem::add_utils("helpers", with_test = TRUE)
 
 ## External resources

@@ -71,13 +71,13 @@ app_ui <- function(request) {
                         tabName = "select",
                         vertical_space(2),
                         h3("Select"),
-                        mod_eda_select_ui(id = NULL)
+                        mod_eda_select_ui(verbose = TRUE)
                     ),
                     shinydashboard::tabItem(
                         tabName = "select_outer",
                         vertical_space(2),
                         h3("Select with outer box"),
-                        mod_eda_select_ui(id = "select_outer", outer_box = TRUE)
+                        mod_eda_select_ui(id = "select_outer", outer_box = TRUE, verbose = TRUE)
                     ),
 
                     # --- Freq table ---
@@ -90,13 +90,13 @@ app_ui <- function(request) {
                         tabName = "freq_table",
                         vertical_space(2),
                         h3("Frequency table"),
-                        mod_eda_freq_table_ui(id = "freq_table")
+                        mod_eda_freq_table_ui(id = "freq_table", verbose = TRUE)
                     ),
                     shinydashboard::tabItem(
                         tabName = "freq_table_outer",
                         vertical_space(2),
                         h3("Frequency table with outer box"),
-                        mod_eda_freq_table_ui(id = "freq_table_outer", outer_box = TRUE)
+                        mod_eda_freq_table_ui(id = "freq_table_outer", outer_box = TRUE, verbose = TRUE)
                     )
                 )
             ),

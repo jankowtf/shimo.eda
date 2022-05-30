@@ -23,7 +23,8 @@ mod_eda_freq_table_ui(
   freq.col_n_rel = "n_rel",
   outer_box = FALSE,
   outer_title = "Frequency table",
-  outer_width = 12
+  outer_width = 12,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -31,7 +32,7 @@ mod_eda_freq_table_ui(
 
 \item{outer_box}{[\link{logical}] Wrap in outer box yes/no}
 
-\item{outer_width}{}
+\item{verbose}{[\link{logical}] Tracing infos yes/no}
 }
 \description{
 A shiny Module.
