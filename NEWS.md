@@ -1,3 +1,11 @@
+# shimo.eda 0.0.0.9012 (2022-05-30)
+
+Updated dependency 'dtf' (0.0.0.9015)
+
+- Updated package dependency `dtf` from `0.0.0.9013` to `0.0.0.9014`
+
+----------
+
 # shimo.eda 0.0.0.9011 (2022-05-30)
 
 Updated dependency `dtf`

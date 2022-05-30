@@ -82,7 +82,9 @@ renv::install("DT")
 
 renv::install("rappster/wrang", rebuild = TRUE)
 renv::install("rappster/drop", rebuild = TRUE)
+
 renv::install("rappster/dtf", rebuild = TRUE)
+usethis::use_dev_package("dtf", type = "Imports", remote = "rappster/dtf")
 
 # Prod dependencies: declare ----------------------------------------------
 
@@ -93,7 +95,6 @@ usethis::use_package("dplyr")
 usethis::use_package("DT")
 usethis::use_dev_package("wrang", type = "Imports", remote = "rappster/wrang")
 usethis::use_dev_package("drop", type = "Imports", remote = "rappster/drop")
-usethis::use_dev_package("dtf", type = "Imports", remote = "rappster/dtf")
 usethis::use_dev_package("shinydashboardPlus", type = "Imports", remote = "RInterface/shinydashboardPlus")
 
 # Continuous dev ----------------------------------------------------------
