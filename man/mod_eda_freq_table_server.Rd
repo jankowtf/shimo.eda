@@ -9,6 +9,7 @@ mod_eda_freq_table_server(
   r_data,
   dt_bundle_buttons = dtf::dt_bundle_buttons_en,
   dt_bundle_internationalization = dtf::dt_bundle_internationalization_en,
+  transform_fn = identity,
   verbose = FALSE
 )
 }

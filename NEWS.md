@@ -1,3 +1,11 @@
+# shimo.eda 0.0.0.9017 (2022-05-31)
+
+Transform function
+
+- Modified `mod_ed_freq_table_server`: added arg `transform_fn` for custom transform functions
+
+----------
+
 # shimo.eda 0.0.0.9016 (2022-05-31)
 
 Module id

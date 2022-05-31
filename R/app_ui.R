@@ -36,7 +36,9 @@ app_ui <- function(request) {
                         shinydashboard::menuSubItem("Separate boxes",
                             tabName = "freq_table", icon = icon("arrow-right")),
                         shinydashboard::menuSubItem("Enclosing box",
-                            tabName = "freq_table_outer", icon = icon("arrow-right"))
+                            tabName = "freq_table_outer", icon = icon("arrow-right")),
+                        shinydashboard::menuSubItem("Transform function",
+                            tabName = "freq_table_trans", icon = icon("arrow-right"))
                     ),
                     shinyjs::hidden(
                         shinydashboard::menuItem("freq_table_hidden",
@@ -116,6 +118,12 @@ app_ui <- function(request) {
                         vertical_space(2),
                         h3("Frequency table with outer box"),
                         mod_eda_freq_table_ui(id = "freq_table_outer", outer_box = TRUE, verbose = FALSE)
+                    ),
+                    shinydashboard::tabItem(
+                        tabName = "freq_table_trans",
+                        vertical_space(2),
+                        h3("Frequency table with transform function"),
+                        mod_eda_freq_table_ui(id = "freq_table_trans", outer_box = TRUE, verbose = FALSE)
                     ),
 
                     # --- Table: dt ---

@@ -1,7 +1,7 @@
 Type: Package
 Package: shimo.eda
 Title: Shiny modules: EDA
-Version: 0.0.0.9016
+Version: 0.0.0.9017
 Authors@R: 
     person("Janko", "Thyson", , "janko@rappster.io", role = c("cre", "aut"))
 Description: Shiny modules for EDA.

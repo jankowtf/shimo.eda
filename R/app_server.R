@@ -21,4 +21,11 @@ app_server <- function(input, output, session) {
     # --- Freq table ---
     mod_eda_freq_table_server(id = "freq_table", r_data = r_data, verbose = FALSE)
     mod_eda_freq_table_server(id = "freq_table_outer", r_data = r_data, verbose = FALSE)
+    mod_eda_freq_table_server(id = "freq_table_trans",
+        r_data = r_data,
+        transform_fn = function(x) {
+            x %>%
+                dplyr::mutate(foo = "bar")
+        },
+        verbose = FALSE)
 }

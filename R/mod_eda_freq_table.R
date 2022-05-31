@@ -170,6 +170,7 @@ mod_eda_freq_table_server <- function(
     r_data,
     dt_bundle_buttons = dtf::dt_bundle_buttons_en,
     dt_bundle_internationalization = dtf::dt_bundle_internationalization_en,
+    transform_fn = identity,
     verbose = FALSE
 ) {
     shiny::moduleServer(id, function(input, output, session) {
@@ -205,7 +206,8 @@ mod_eda_freq_table_server <- function(
             input_ids = input_ids,
             input_values = input_values,
             dt_bundle_buttons = dt_bundle_buttons,
-            dt_bundle_internationalization = dt_bundle_internationalization
+            dt_bundle_internationalization = dt_bundle_internationalization,
+            transform_fn = transform_fn
         )
     })
 }
@@ -433,7 +435,8 @@ render_grouping_data_table <- function(
     freq_tab.col_n_rel = "col_n_rel",
     freq_tab.sort = TRUE,
     dt_bundle_buttons = dtf::dt_bundle_buttons_en,
-    dt_bundle_internationalization = dtf::dt_bundle_internationalization_en
+    dt_bundle_internationalization = dtf::dt_bundle_internationalization_en,
+    transform_fn = identity
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
@@ -474,7 +477,8 @@ render_grouping_data_table <- function(
             .bundles = list(
                 dt_bundle_buttons(),
                 dt_bundle_internationalization()
-            )
+            ),
+            trans_fn = transform_fn
         )
     })
 }
