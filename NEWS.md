@@ -1,3 +1,11 @@
+# shimo.eda 0.0.0.9019 (2022-05-31)
+
+'shiny_font_size_perc()'
+
+- Added `shiny_font_size_perc()`: a convenience wrapper around `div(<string>, style = 'font-size:<percent>%;')`
+
+----------
+
 # shimo.eda 0.0.0.9018 (2022-05-31)
 
 Custom DT bundles, filter & 'dtf' update

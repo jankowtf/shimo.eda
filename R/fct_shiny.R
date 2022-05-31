@@ -39,3 +39,25 @@ shiny_trace_ns_server <- function(
         })
     })
 }
+
+#' Adjust font size (in percent)
+#'
+#' @param value [[character]] Text value
+#' @param size [[integer]] Font siz in percent
+#'
+#' @return [shiny::div]
+#' @export
+#'
+#' @examples
+#' shiny_font_size_perc("foo")
+#' shiny_font_size_perc("foo", 50)
+shiny_font_size_perc <- function(
+    value,
+    size = 75
+) {
+    # shiny::moduleServer(.id, function(input, output, session) {
+    #     ns <- session$ns
+
+        shiny::div(value, style = "font-size:{size}%;" %>% stringr::str_glue())
+    # })
+}
