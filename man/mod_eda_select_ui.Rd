@@ -6,7 +6,9 @@
 \usage{
 mod_eda_select_ui(
   id = "eda_select",
-  select_title = "Select columns",
+  ns = function() {
+ },
+  select_title = "Columns",
   select_width = 12,
   select_id = "select_ui",
   select_button_label = "Add select statement",
@@ -17,13 +19,15 @@ mod_eda_select_ui(
   data_title = "Data table",
   data_width = 12,
   outer_box = FALSE,
-  outer_title = "Frequency table",
+  outer_title = "Select columns",
   outer_width = 12,
   verbose = FALSE
 )
 }
 \arguments{
 \item{id}{[\link{character}] Module ID}
+
+\item{ns}{[\link{function}] Namespace function}
 
 \item{verbose}{[\link{logical}] Tracing infos yes/no}
 }

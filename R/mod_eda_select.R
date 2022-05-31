@@ -1,6 +1,7 @@
 #' export UI Function
 #'
 #' @param id [[character]] Module ID
+#' @param ns [[function]] Namespace function
 #' @param select_title
 #' @param select_width
 #' @param select_id
@@ -22,8 +23,9 @@
 #' @export
 mod_eda_select_ui <- function(
     id = "eda_select",
+    ns = function() {},
     # --- Select
-    select_title = "Select columns",
+    select_title = "Columns",
     select_width = 12,
     select_id = "select_ui",
     select_button_label = "Add select statement",
@@ -36,7 +38,7 @@ mod_eda_select_ui <- function(
     data_width = 12,
     # --- Outer
     outer_box = FALSE,
-    outer_title = "Frequency table",
+    outer_title = "Select columns",
     outer_width = 12,
     verbose = FALSE
 ) {

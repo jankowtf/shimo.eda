@@ -3,6 +3,7 @@
 #' export UI Function
 #'
 #' @param id [[character]] Module ID
+#' @param ns [[function]] Namespace function
 #' @param grouping_title
 #' @param grouping_width
 #' @param grouping_button_label
@@ -28,9 +29,10 @@
 #' @importFrom shiny NS tagList
 #' @export
 mod_eda_freq_table_ui <- function(
-    id = NULL,
+    id = "eda_freq_table",
+    ns = function() {},
     # --- Grouping
-    grouping_title = "Group data",
+    grouping_title = "Group by",
     grouping_width = 12,
     grouping_button_label = "Add group-by statement",
     grouping_button_class = "btn-primary",
@@ -53,6 +55,10 @@ mod_eda_freq_table_ui <- function(
     outer_width = 12,
     verbose = FALSE
 ) {
+    if (!missing(ns)) {
+        id <- ns(id)
+    }
+
     ns <- NS(id)
 
     shiny_trace_ns_ui(
@@ -61,8 +67,6 @@ mod_eda_freq_table_ui <- function(
         ns = ns,
         verbose = verbose
     )
-
-    shiny::selectInput("test", label = NULL, choices = letters)
 
     ui <- tagList(
         fluidRow(
@@ -117,7 +121,7 @@ mod_eda_freq_table_ui <- function(
                             circle = TRUE,
                             size = "xs",
                             status = "danger",
-                            icon = icon("gear"),
+                            icon = icon("gear", verfiy_fa = FALSE),
                             width = "150px",
                             tooltip = shinyWidgets::tooltipOptions(
                                 title = "Click to see inputs")
@@ -162,7 +166,7 @@ mod_eda_freq_table_ui <- function(
 #'
 #' @export
 mod_eda_freq_table_server <- function(
-    id = NULL,
+    id = "eda_freq_table",
     r_data,
     dt_bundle_buttons = dtf::dt_bundle_buttons_en,
     dt_bundle_internationalization = dtf::dt_bundle_internationalization_en,

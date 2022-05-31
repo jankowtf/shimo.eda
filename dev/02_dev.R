@@ -20,6 +20,7 @@ attachment::att_amend_desc()
 ## Add modules ----
 golem::add_module(name = "eda_freq_table", with_test = TRUE)
 golem::add_module(name = "eda_select", with_test = TRUE)
+golem::add_module(name = "table_dt", with_test = TRUE)
 
 ## Add helper functions ----
 ## Creates fct_* and utils_*

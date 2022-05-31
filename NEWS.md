@@ -1,3 +1,17 @@
+# shimo.eda 0.0.0.9016 (2022-05-31)
+
+Module id
+
+- Modified `mod_ed_freq_table_ui`: new default for `id` and new arg `ns`
+- Modified `mod_ed_freq_table_server`: new default for `id`
+- Modified `mod_ed_select_ui`: new arg `ns`
+- Experimented with nested module namespaces, i.e. passing enclosing `ns` along
+to downstream functions. Works conceptionally for `*_ui()` functions (validated
+via `shiny_trace_ns_ui()`) but details still not worked out for `*_server()`
+functions. See `mod_foo_ui()` and `mod_foo_server()` for details.
+
+----------
+
 # shimo.eda 0.0.0.9015 (2022-05-30)
 
 Tracing shiny NS info

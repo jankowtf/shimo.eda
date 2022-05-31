@@ -5,8 +5,10 @@
 \title{export UI Function}
 \usage{
 mod_eda_freq_table_ui(
-  id = NULL,
-  grouping_title = "Group data",
+  id = "eda_freq_table",
+  ns = function() {
+ },
+  grouping_title = "Group by",
   grouping_width = 12,
   grouping_button_label = "Add group-by statement",
   grouping_button_class = "btn-primary",
@@ -29,6 +31,8 @@ mod_eda_freq_table_ui(
 }
 \arguments{
 \item{id}{[\link{character}] Module ID}
+
+\item{ns}{[\link{function}] Namespace function}
 
 \item{outer_box}{[\link{logical}] Wrap in outer box yes/no}
 
