@@ -68,9 +68,11 @@ mod_table_dt_ui <- function(
 #' @param verbose [[logical]] Tracing infos yes/no
 #' @param data
 #' @param output_id
+#' @param filter
 #' @param scrollY
 #' @param left
 #' @param right
+#' @param server
 #' @param trans_fn
 #' @param rename_fn
 #' @param .bundles
@@ -85,10 +87,11 @@ mod_table_dt_server <- function(
     # ns = function() {},
     output_id = "dt",
     data,
-    # filter = c("none", "bottom", "top"),
+    filter = dtf::valid_dt_filter_values(1),
     scrollY = 400,
     left = integer(),
     right = integer(),
+    server = FALSE,
     # selection = valid_dt_arg_selection("none"),
     trans_fn = identity,
     rename_fn = identity,
@@ -109,9 +112,11 @@ mod_table_dt_server <- function(
             id = "render",
             output_id = output_id,
             data = data,
+            filter = filter,
             scrollY = scrollY,
             left = left,
             right = right,
+            server = server,
             # selection = selection,
             trans_fn = trans_fn,
             rename_fn = rename_fn,

@@ -9,7 +9,11 @@ mod_eda_freq_table_server(
   r_data,
   dt_bundle_buttons = dtf::dt_bundle_buttons_en,
   dt_bundle_internationalization = dtf::dt_bundle_internationalization_en,
+  dt_bundles_additional = list(),
   transform_fn = identity,
+  dt.filter = dtf::valid_dt_filter_values(1),
+  dt.scroll_y = 300,
+  dt.left = 1L,
   verbose = FALSE
 )
 }
@@ -21,6 +25,15 @@ mod_eda_freq_table_server(
 \item{dt_bundle_buttons}{[\link{function}] Seet [\link[dtf:dt_bundle_buttons]{dtf::dt_bundle_buttons}]}
 
 \item{dt_bundle_internationalization}{[\link{function}] Seet [\link[dtf:dt_bundle_internationalization]{dtf::dt_bundle_internationalization}]}
+
+\item{dt_bundles_additional}{[\link{list}] Additional DT bundles. See
+\link[dtf:dt_bundle_dom]{dtf::dt_bundle_dom} as an example}
+
+\item{dt.filter}{[\link{character}] DT column filter settings. See package \link{dtf}}
+
+\item{dt.scroll_y}{[\link{integer}] DT: pixels for vertical scrolling}
+
+\item{dt.left}{[\link{integer}] DT: columns to fix from the left}
 
 \item{verbose}{[\link{logical}] Tracing infos yes/no}
 }

@@ -13,7 +13,7 @@ Imports:
     dplyr,
     drop (>= 0.0.0.9003),
     DT,
-    dtf (>= 0.0.0.9019),
+    dtf (>= 0.0.0.9022),
     golem,
     htmltools,
     lifecycle,

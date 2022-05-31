@@ -15,11 +15,22 @@ render_grouping_data_table(
   freq_tab.sort = TRUE,
   dt_bundle_buttons = dtf::dt_bundle_buttons_en,
   dt_bundle_internationalization = dtf::dt_bundle_internationalization_en,
+  dt_bundles_additional = list(),
+  dt.filter = dtf::valid_dt_filter_values(1),
+  dt.scroll_y = 300,
+  dt.left = 1L,
   transform_fn = identity
 )
 }
 \arguments{
-\item{dt_bundle_internationalization}{}
+\item{dt_bundles_additional}{[\link{list}] Additional DT bundles. See
+\link[dtf:dt_bundle_dom]{dtf::dt_bundle_dom} as an example}
+
+\item{dt.filter}{[\link{character}] DT column filter settings. See package \link{dtf}}
+
+\item{dt.scroll_y}{[\link{integer}] DT: pixels for vertical scrolling}
+
+\item{dt.left}{[\link{integer}] DT: columns to fix from the left}
 }
 \description{
 Title

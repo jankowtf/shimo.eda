@@ -38,7 +38,9 @@ app_ui <- function(request) {
                         shinydashboard::menuSubItem("Enclosing box",
                             tabName = "freq_table_outer", icon = icon("arrow-right")),
                         shinydashboard::menuSubItem("Transform function",
-                            tabName = "freq_table_trans", icon = icon("arrow-right"))
+                            tabName = "freq_table_trans", icon = icon("arrow-right")),
+                        shinydashboard::menuSubItem("Addtional DT bundles",
+                            tabName = "freq_table_bundles", icon = icon("arrow-right"))
                     ),
                     shinyjs::hidden(
                         shinydashboard::menuItem("freq_table_hidden",
@@ -70,7 +72,11 @@ app_ui <- function(request) {
                         shinydashboard::menuSubItem("Enclosing box",
                             tabName = "table_dt_box", icon = icon("arrow-right")),
                         shinydashboard::menuSubItem("Enclosing ns",
-                            tabName = "table_dt_ns", icon = icon("arrow-right"))
+                            tabName = "table_dt_ns", icon = icon("arrow-right")),
+                        shinydashboard::menuSubItem("Custom DT bundles",
+                            tabName = "table_dt_bundles", icon = icon("arrow-right")),
+                        shinydashboard::menuSubItem("DT with colum filters",
+                            tabName = "table_dt_filter", icon = icon("arrow-right"))
                     ),
                     shinyjs::hidden(
                         shinydashboard::menuItem("select_hidden",
@@ -82,6 +88,40 @@ app_ui <- function(request) {
             body = shinydashboard::dashboardBody(
                 shinyjs::useShinyjs(),
                 shinydashboard::tabItems(
+                    # --- Freq table ---
+                    shinydashboard::tabItem(
+                        tabName = "freq_table_hidden",
+                        vertical_space(2),
+                        h3("Frequency table (click subitem on the left)")
+                    ),
+                    shinydashboard::tabItem(
+                        tabName = "freq_table",
+                        vertical_space(2),
+                        h3("Frequency table"),
+                        mod_eda_freq_table_ui(id = "freq_table", verbose = FALSE)
+                    ),
+                    shinydashboard::tabItem(
+                        tabName = "freq_table_outer",
+                        vertical_space(2),
+                        h3("Frequency table with outer box"),
+                        mod_eda_freq_table_ui(id = "freq_table_outer",
+                            outer_box = TRUE, verbose = FALSE)
+                    ),
+                    shinydashboard::tabItem(
+                        tabName = "freq_table_trans",
+                        vertical_space(2),
+                        h3("Frequency table with transform function"),
+                        mod_eda_freq_table_ui(id = "freq_table_trans",
+                            outer_box = TRUE, verbose = FALSE)
+                    ),
+                    shinydashboard::tabItem(
+                        tabName = "freq_table_bundles",
+                        vertical_space(2),
+                        h3("Frequency table with additional DT bundles"),
+                        mod_eda_freq_table_ui(id = "freq_table_bundles",
+                            outer_box = TRUE, verbose = FALSE)
+                    ),
+
                     # --- Select ---
                     shinydashboard::tabItem(
                         tabName = "select_hidden",
@@ -101,31 +141,6 @@ app_ui <- function(request) {
                         mod_eda_select_ui(id = "select_outer", outer_box = TRUE, verbose = FALSE)
                     ),
 
-                    # --- Freq table ---
-                    shinydashboard::tabItem(
-                        tabName = "freq_table_hidden",
-                        vertical_space(2),
-                        h3("Frequency table (click subitem on the left)")
-                    ),
-                    shinydashboard::tabItem(
-                        tabName = "freq_table",
-                        vertical_space(2),
-                        h3("Frequency table"),
-                        mod_eda_freq_table_ui(id = "freq_table", verbose = FALSE)
-                    ),
-                    shinydashboard::tabItem(
-                        tabName = "freq_table_outer",
-                        vertical_space(2),
-                        h3("Frequency table with outer box"),
-                        mod_eda_freq_table_ui(id = "freq_table_outer", outer_box = TRUE, verbose = FALSE)
-                    ),
-                    shinydashboard::tabItem(
-                        tabName = "freq_table_trans",
-                        vertical_space(2),
-                        h3("Frequency table with transform function"),
-                        mod_eda_freq_table_ui(id = "freq_table_trans", outer_box = TRUE, verbose = FALSE)
-                    ),
-
                     # --- Table: dt ---
                     shinydashboard::tabItem(
                         tabName = "table_dt_hidden",
@@ -136,7 +151,7 @@ app_ui <- function(request) {
                         tabName = "table_dt",
                         vertical_space(2),
                         h3("Table: DT"),
-                        mod_table_dt_ui(verbose = TRUE)
+                        mod_table_dt_ui(verbose = FALSE)
                     ),
                     shinydashboard::tabItem(
                         tabName = "table_dt_box",
@@ -149,6 +164,18 @@ app_ui <- function(request) {
                         vertical_space(2),
                         h3("Table: DT with enclosing 'ns' (EXPERIMENTAL)"),
                         mod_foo_ui(verbose = FALSE)
+                    ),
+                    shinydashboard::tabItem(
+                        tabName = "table_dt_bundles",
+                        vertical_space(2),
+                        h3("Table: DT with custom DT bundles"),
+                        mod_table_dt_ui(id = "table_dt_bundles", box = TRUE, verbose = FALSE)
+                    ),
+                    shinydashboard::tabItem(
+                        tabName = "table_dt_filter",
+                        vertical_space(2),
+                        h3("Table: DT with column filter"),
+                        mod_table_dt_ui(id = "table_dt_filter", box = TRUE, verbose = FALSE)
                     )
                 )
             ),

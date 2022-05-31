@@ -163,6 +163,12 @@ mod_eda_freq_table_ui <- function(
 #' @param dt_bundle_buttons [[function]] Seet [[dtf::dt_bundle_buttons]]
 #' @param dt_bundle_internationalization [[function]] Seet [[dtf::dt_bundle_internationalization]]
 #' @param verbose [[logical]] Tracing infos yes/no
+#' @param dt_bundles_additional [[list]] Additional DT bundles. See
+#'   [dtf::dt_bundle_dom] as an example
+#' @param transform_fn
+#' @param dt.filter [[character]] DT column filter settings. See package [dtf]
+#' @param dt.scroll_y [[integer]] DT: pixels for vertical scrolling
+#' @param dt.left [[integer]] DT: columns to fix from the left
 #'
 #' @export
 mod_eda_freq_table_server <- function(
@@ -170,7 +176,11 @@ mod_eda_freq_table_server <- function(
     r_data,
     dt_bundle_buttons = dtf::dt_bundle_buttons_en,
     dt_bundle_internationalization = dtf::dt_bundle_internationalization_en,
+    dt_bundles_additional = list(),
     transform_fn = identity,
+    dt.filter = dtf::valid_dt_filter_values(1),
+    dt.scroll_y = 300,
+    dt.left = 1L,
     verbose = FALSE
 ) {
     shiny::moduleServer(id, function(input, output, session) {
@@ -207,6 +217,10 @@ mod_eda_freq_table_server <- function(
             input_values = input_values,
             dt_bundle_buttons = dt_bundle_buttons,
             dt_bundle_internationalization = dt_bundle_internationalization,
+            dt_bundles_additional = dt_bundles_additional,
+            dt.filter = dt.filter,
+            dt.scroll_y = dt.scroll_y,
+            dt.left = dt.left,
             transform_fn = transform_fn
         )
     })
@@ -420,6 +434,12 @@ render_grouping_ui <- function(
 #' @param freq_tab.sort
 #' @param dt_bundle_buttons
 #' @param dt_bundle_internationalization
+#' @param dt_bundles_additional [[list]] Additional DT bundles. See
+#'   [dtf::dt_bundle_dom] as an example
+#' @param transform_fn
+#' @param dt.filter [[character]] DT column filter settings. See package [dtf]
+#' @param dt.scroll_y [[integer]] DT: pixels for vertical scrolling
+#' @param dt.left [[integer]] DT: columns to fix from the left
 #'
 #' @return
 #' @export
@@ -436,6 +456,10 @@ render_grouping_data_table <- function(
     freq_tab.sort = TRUE,
     dt_bundle_buttons = dtf::dt_bundle_buttons_en,
     dt_bundle_internationalization = dtf::dt_bundle_internationalization_en,
+    dt_bundles_additional = list(),
+    dt.filter = dtf::valid_dt_filter_values(1),
+    dt.scroll_y = 300,
+    dt.left = 1L,
     transform_fn = identity
 ) {
     shiny::moduleServer(id, function(input, output, session) {
@@ -467,17 +491,32 @@ render_grouping_data_table <- function(
             }
         })
 
+        # --- Bundles
+        dt_bundles = c(
+            list(
+                dt_bundle_buttons(),
+                dt_bundle_internationalization()
+            ),
+            dt_bundles_additional
+        )
+
         # --- Render
         dtf::mod_render_dt_server(
             id = id,
             output_id = output_id,
             data = r_data_trans,
-            scrollY = 300,
-            left = 1,
-            .bundles = list(
-                dt_bundle_buttons(),
-                dt_bundle_internationalization()
-            ),
+            filter = dt.filter,
+            scrollY = dt.scroll_y,
+            left = dt.left,
+            .bundles = dt_bundles,
+            # .bundles_default = list(
+            #     # dtf::dt_bundle_scroller(scrollY = 400)
+            #     dtf:::dt_bundle_colreorder(),
+            #     dtf:::dt_bundle_fixedheader(),
+            #     dtf:::dt_bundle_fixedcolumns(left = dt.left),
+            #     dtf:::dt_bundle_keytable(),
+            #     dtf:::dt_bundle_internationalization()
+            # ),
             trans_fn = transform_fn
         )
     })

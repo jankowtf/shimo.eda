@@ -1,10 +1,19 @@
-# shimo.eda (development version)
+# shimo.eda 0.0.0.9018 (2022-05-31)
+
+Custom DT bundles, filter & 'dtf' update
+
+- Modified `mod_ed_freq_table_server`: added possibility to pass along custom
+`dtf::dt_bundle_*()` functions
+- Added `filter` arg
+- Updated package dependency `dtf` to `0.0.0.9022`
+
+----------
 
 # shimo.eda 0.0.0.9017 (2022-05-31)
 
 Transform function
 
-- Modified `mod_ed_freq_table_server`: added arg `transform_fn` for custom transform functions
+- Modified `mod_ed_freq_table_server` and `render_grouping_data_table()`: added arg `transform_fn` for custom transform functions
 
 ----------
 
