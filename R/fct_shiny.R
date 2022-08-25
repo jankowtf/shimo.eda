@@ -61,3 +61,34 @@ shiny_font_size_perc <- function(
         shiny::div(value, style = "font-size:{size}%;" %>% stringr::str_glue())
     # })
 }
+
+rea_handle_data_input <- function(
+    data = reactive(tibble::tibble()),
+    data_fn = function() stop("Dummy data function"),
+    event_id = "reload_data_train",
+    verbose = FALSE,
+    id = character()
+) {
+    shiny::moduleServer(id, function(input, output, session) {
+        ns <- session$ns
+
+        if (!inherits(data, "reactive")) {
+            data <- reactive(data)
+        }
+
+        is_empty <- reactive({
+            !length(data())
+        })
+
+        reactive({
+            if (is_empty()) {
+                data_fn(
+                    input_id = event_id,
+                    verbose = verbose
+                )()
+            } else {
+                data()
+            }
+        })
+    })
+}

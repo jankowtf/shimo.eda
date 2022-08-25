@@ -1,3 +1,12 @@
+# shimo.eda 0.0.0.9020 (2022-08-25)
+
+Selectize
+
+- Modified `mod_eda_select.R`: renamed to `mod_select()`, added `render_data`, added `reactive_select()`
+- Added `mod_select2.R` with selectize input
+
+----------
+
 # shimo.eda 0.0.0.9019 (2022-05-31)
 
 'shiny_font_size_perc()'

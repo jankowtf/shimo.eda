@@ -55,13 +55,14 @@ app_ui <- function(request) {
                         shinydashboard::menuSubItem("Separate boxes",
                             tabName = "select", icon = icon("arrow-right")),
                         shinydashboard::menuSubItem("Enclosing box",
-                            tabName = "select_outer", icon = icon("arrow-right"))
+                            tabName = "select_outer", icon = icon("arrow-right")),
+                        shinydashboard::menuSubItem("Selectize",
+                            tabName = "selectize", icon = icon("arrow-right"))
                     ),
                     shinyjs::hidden(
                         shinydashboard::menuItem("select_hidden",
                             tabName = "select_hidden", selected = TRUE)
                     ),
-
 
                     # --- Table: DT ---
                     shinydashboard::menuItem(
@@ -132,13 +133,20 @@ app_ui <- function(request) {
                         tabName = "select",
                         vertical_space(2),
                         h3("Select"),
-                        mod_eda_select_ui(verbose = FALSE)
+                        mod_select_ui(verbose = FALSE)
                     ),
                     shinydashboard::tabItem(
                         tabName = "select_outer",
                         vertical_space(2),
                         h3("Select with outer box"),
-                        mod_eda_select_ui(id = "select_outer", outer_box = TRUE, verbose = FALSE)
+                        mod_select_ui(id = "select_outer", outer_box = TRUE, verbose = FALSE)
+                    ),
+                    shinydashboard::tabItem(
+                        tabName = "selectize",
+                        vertical_space(2),
+                        h3("Selectize"),
+                        mod_select2_ui(id = "selectize", outer_box = TRUE, verbose = FALSE,
+                            render_data = TRUE)
                     ),
 
                     # --- Table: dt ---

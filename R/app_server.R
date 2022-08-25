@@ -29,8 +29,10 @@ app_server <- function(input, output, session) {
     )
 
     # --- Select ---
-    mod_eda_select_server(r_data = r_data, verbose = FALSE)
-    mod_eda_select_server(id = "select_outer", r_data = r_data, verbose = FALSE)
+    mod_select_server(r_data = r_data, verbose = FALSE)
+    mod_select_server(id = "select_outer", r_data = r_data, fn_select_ui = create_select_ui, verbose = FALSE)
+    mod_select2_server(id = "selectize", data = r_data,
+        fn_select_ui = create_selectize_ui, render_data = TRUE)
 
     # --- Table: DT ---
     mod_table_dt_server(data = r_data, verbose = TRUE)

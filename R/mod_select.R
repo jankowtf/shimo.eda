@@ -16,12 +16,13 @@
 #' @param outer_title
 #' @param outer_width
 #' @param verbose [[logical]] Tracing infos yes/no
+#' @param render_data [[logical]] Render data table yes/no
 #'
 #' @description A shiny Module.
 #'
 #' @importFrom shiny NS tagList
 #' @export
-mod_eda_select_ui <- function(
+mod_select_ui <- function(
     id = "eda_select",
     ns = function() {},
     # --- Select
@@ -29,11 +30,17 @@ mod_eda_select_ui <- function(
     select_width = 12,
     select_id = "select_ui",
     select_button_label = "Add select statement",
-    select_button_class = "btn-success",
+    select_button_class = "btn-primary",
     select_button_style = "color: #fff;",
     select_button_icon = icon('plus'),
     select_button_width = 170,
+    select_button_submit_label = "Submit",
+    select_button_submit_class = "btn-success",
+    select_button_submit_style = "color: #fff;",
+    select_button_submit_icon = icon('check'),
+    select_button_submit_width = 100,
     # --- Data
+    render_data = TRUE,
     data_title = "Data table",
     data_width = 12,
     # --- Outer
@@ -45,7 +52,7 @@ mod_eda_select_ui <- function(
     ns <- NS(id)
 
     shiny_trace_ns_ui(
-        fn_name = "mod_eda_select_ui",
+        fn_name = "mod_select_ui",
         id_inner = "foo",
         ns = ns,
         verbose = verbose
@@ -55,7 +62,6 @@ mod_eda_select_ui <- function(
 
     ui <- tagList(
         fluidRow(
-            # column(
             shinydashboardPlus::box(
                 title = select_title,
                 width = select_width,
@@ -70,18 +76,27 @@ mod_eda_select_ui <- function(
                 ),
                 tags$br(),
                 tags$br(),
-                uiOutput(ns("select_ui"))
+                uiOutput(ns("select_ui")),
+                actionButton(
+                    ns("submit"),
+                    label = select_button_submit_label,
+                    class = select_button_submit_class,
+                    style = select_button_submit_style,
+                    icon = select_button_submit_icon,
+                    width = select_button_submit_width
+                )
             )
         ),
-        fluidRow(
-            # column(
-            shinydashboardPlus::box(
-                width = data_width,
-                title = data_title,
-                collapsible = TRUE,
-                DT::DTOutput(ns("select_tbl"))
+        if (render_data) {
+            fluidRow(
+                shinydashboardPlus::box(
+                    width = data_width,
+                    title = data_title,
+                    collapsible = TRUE,
+                    DT::DTOutput(ns("select_tbl"))
+                )
             )
-        ),
+        },
         tags$script(src = "shimo.eda.js"),
         tags$script(paste0("shimo_eda_mod_select_js('", ns(''), "')"))
     )
@@ -108,15 +123,18 @@ mod_eda_select_ui <- function(
 #' @param dt_bundle_buttons [[function]] Seet [[dtf::dt_bundle_buttons]]
 #' @param dt_bundle_internationalization [[function]] Seet [[dtf::dt_bundle_internationalization]]
 #' @param verbose [[logical]] Tracing infos yes/no
+#' @param render_data [[logical]] Render data table yes/no
 #'
 #' @export
-mod_eda_select_server <- function(
+mod_select_server <- function(
     id = "eda_select",
     r_data,
     input_id_prefix = "select_input",
     dt_bundle_buttons = dtf::dt_bundle_buttons_en,
     dt_bundle_internationalization = dtf::dt_bundle_internationalization_en,
-    verbose = FALSE
+    verbose = FALSE,
+    fn_select_ui = create_select_ui,
+    render_data = TRUE
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
@@ -127,32 +145,47 @@ mod_eda_select_server <- function(
         input_values <- get_input_values(input_ids = input_ids)
 
         shiny_trace_ns_server(
-            fn_name = "mod_eda_select_server",
+            fn_name = "mod_select_server",
             id_inner = input_ids,
             verbose = verbose
         )
 
-        create_select_ui <- create_select_ui(
+        fn_select_ui <- fn_select_ui(
             r_data = r_data,
             input_ids = input_ids,
             input_values = input_values,
             input_id_prefix = input_id_prefix
         )
 
-        render_select_ui(id = NULL, create_select_ui = create_select_ui)
+        render_select_ui(id = NULL, fn_select_ui = fn_select_ui)
 
         # --- Remove select UI ---
         remove_select_ui(id = NULL)
 
-        # --- Render data table ---
-        render_select_data_table(
+        # --- Select data ---
+        data_selected <- reactive_select(
             id = NULL,
-            r_data = r_data,
+            data = r_data,
             input_ids = input_ids,
             input_values = input_values,
-            dt_bundle_buttons = dt_bundle_buttons,
-            dt_bundle_internationalization = dt_bundle_internationalization
+            event_id = "submit",
+            ignore_null = FALSE
         )
+
+        # --- Render data table ---
+        if (render_data) {
+            render_select_data_table(
+                id = NULL,
+                # r_data = r_data,
+                r_data = data_selected,
+                input_ids = input_ids,
+                input_values = input_values,
+                dt_bundle_buttons = dt_bundle_buttons,
+                dt_bundle_internationalization = dt_bundle_internationalization
+            )
+        } else {
+            data_selected
+        }
     })
 }
 
@@ -302,14 +335,14 @@ handle_existing_select_inputs <- function(
 
 render_select_ui <- function(
     id = NULL,
-    create_select_ui,
+    fn_select_ui,
     output_id = "select_ui"
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
 
         output[[output_id]] <- renderUI({
-            create_select_ui()
+            fn_select_ui()
         })
     })
 }
@@ -338,7 +371,8 @@ render_select_data_table <- function(
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
 
-        # output$select_tbl <- DT::renderDT({
+        # Transform
+        # r_data_2 <- reactive({
         #     data <- r_data()
         #
         #     group_by_ids <- input_ids()
@@ -357,27 +391,7 @@ render_select_data_table <- function(
         #         data
         #     }
         # })
-
-        # Transform
-        r_data_2 <- reactive({
-            data <- r_data()
-
-            group_by_ids <- input_ids()
-            if (length(group_by_ids)) {
-                cols <- input_values() %>% unname() %>% dplyr::syms()
-                if (length(cols)) {
-
-                    # data %>%
-                    #     wrang::wr_freq_table(!!!cols)
-                    data %>%
-                        dplyr::select(!!!cols)
-                } else {
-                    data
-                }
-            } else {
-                data
-            }
-        })
+        r_data_2 <- r_data
 
         # Render
         dtf::mod_render_dt_server(
