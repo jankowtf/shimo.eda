@@ -1,3 +1,13 @@
+# shimo.eda 0.0.0.9021 (2022-08-26)
+
+Stand-alone group by
+
+- Modified `mod_eda_freq_table.R`: renamed to `mod_freq_table.R`, added `submit` button, added `reactive_group_by()`
+- Modified arguments: renamed `r_data` to `data`
+- Added `mod_group_by.R`
+
+----------
+
 # shimo.eda 0.0.0.9020 (2022-08-25)
 
 Selectize

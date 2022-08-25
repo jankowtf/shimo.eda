@@ -100,7 +100,7 @@ mod_select2_ui <- function(
 #' export Server Function
 #'
 #' @param id [[character]] Module ID
-#' @param r_data
+#' @param data
 #' @param input_id_prefix
 #' @param dt_bundle_buttons [[function]] Seet [[dtf::dt_bundle_buttons]]
 #' @param dt_bundle_internationalization [[function]] Seet [[dtf::dt_bundle_internationalization]]
@@ -171,7 +171,8 @@ mod_select2_server <- function(
 create_selectize_ui <- function(
     id = NULL,
     data,
-    input_id_prefix = "selectize_input"
+    input_id_prefix = "selectize_input",
+    width = "50%"
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
@@ -186,7 +187,7 @@ create_selectize_ui <- function(
                 label = NULL,
                 choices = cols,
                 multiple = TRUE,
-                width = "50%"
+                width = width
             )
 
         })
@@ -198,7 +199,7 @@ create_selectize_ui <- function(
 #' Title
 #'
 #' @param id
-#' @param r_data
+#' @param data
 #' @param input_ids
 #' @param input_values
 #' @param buttons_language

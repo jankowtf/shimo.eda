@@ -119,14 +119,14 @@ get_input_values <- function(
 # Handle column values ----------------------------------------------------------
 
 handle_col_values <- function(
-    r_data,
+    data,
     input_values = list(),
     .id = NULL
 ) {
     shiny::moduleServer(.id, function(input, output, session) {
         ns <- session$ns
 
-        names <- r_data() %>% names()
+        names <- data() %>% names()
 
         if (length(input_values)) {
             names[!(names %in% input_values)]

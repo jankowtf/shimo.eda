@@ -6,7 +6,7 @@
 \usage{
 render_select_data_table(
   id = NULL,
-  r_data,
+  data,
   input_ids,
   input_values,
   dt_bundle_buttons = dtf::dt_bundle_buttons_en,

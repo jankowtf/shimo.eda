@@ -6,7 +6,7 @@ my_ui <- fluidPage(
         h1("Dev application", align = 'center'),
         windowTitle = "Dev application"
     ),
-    mod_eda_freq_table_ui(id = "grouping"),
+    mod_freq_table_ui(id = "grouping"),
     mod_select_ui(id = "test")
 )
 

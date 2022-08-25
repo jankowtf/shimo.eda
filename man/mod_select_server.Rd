@@ -6,7 +6,7 @@
 \usage{
 mod_select_server(
   id = "eda_select",
-  r_data,
+  data,
   input_id_prefix = "select_input",
   dt_bundle_buttons = dtf::dt_bundle_buttons_en,
   dt_bundle_internationalization = dtf::dt_bundle_internationalization_en,

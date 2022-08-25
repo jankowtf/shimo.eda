@@ -118,7 +118,7 @@ mod_select_ui <- function(
 #' export Server Function
 #'
 #' @param id [[character]] Module ID
-#' @param r_data
+#' @param data
 #' @param input_id_prefix
 #' @param dt_bundle_buttons [[function]] Seet [[dtf::dt_bundle_buttons]]
 #' @param dt_bundle_internationalization [[function]] Seet [[dtf::dt_bundle_internationalization]]
@@ -128,7 +128,7 @@ mod_select_ui <- function(
 #' @export
 mod_select_server <- function(
     id = "eda_select",
-    r_data,
+    data,
     input_id_prefix = "select_input",
     dt_bundle_buttons = dtf::dt_bundle_buttons_en,
     dt_bundle_internationalization = dtf::dt_bundle_internationalization_en,
@@ -151,7 +151,7 @@ mod_select_server <- function(
         )
 
         fn_select_ui <- fn_select_ui(
-            r_data = r_data,
+            data = data,
             input_ids = input_ids,
             input_values = input_values,
             input_id_prefix = input_id_prefix
@@ -165,7 +165,7 @@ mod_select_server <- function(
         # --- Select data ---
         data_selected <- reactive_select(
             id = NULL,
-            data = r_data,
+            data = data,
             input_ids = input_ids,
             input_values = input_values,
             event_id = "submit",
@@ -176,8 +176,7 @@ mod_select_server <- function(
         if (render_data) {
             render_select_data_table(
                 id = NULL,
-                # r_data = r_data,
-                r_data = data_selected,
+                data = data_selected,
                 input_ids = input_ids,
                 input_values = input_values,
                 dt_bundle_buttons = dt_bundle_buttons,
@@ -193,7 +192,7 @@ mod_select_server <- function(
 
 create_select_ui <- function(
     id = NULL,
-    r_data,
+    data,
     input_ids,
     input_values,
     input_id_prefix = "select_input",
@@ -210,14 +209,14 @@ create_select_ui <- function(
             input_values <- input_values()
 
             # --- Handle existing select inputs ---
-            cols <- r_data() %>% names()
+            cols <- data() %>% names()
             select_existing <- handle_existing_select_inputs(
                 cols = cols,
                 input_values = input_values
             )
 
             # --- Handle columns
-            cols <- r_data %>% handle_col_values(input_values = input_values)
+            cols <- data %>% handle_col_values(input_values = input_values)
 
             # --- Compose UI elements ---
             pos_latest <- length(select_existing) + 1
@@ -352,7 +351,7 @@ render_select_ui <- function(
 #' Title
 #'
 #' @param id
-#' @param r_data
+#' @param data
 #' @param input_ids
 #' @param input_values
 #' @param buttons_language
@@ -362,7 +361,7 @@ render_select_ui <- function(
 #' @examples
 render_select_data_table <- function(
     id = NULL,
-    r_data,
+    data,
     input_ids,
     input_values,
     dt_bundle_buttons = dtf::dt_bundle_buttons_en,
@@ -373,7 +372,7 @@ render_select_data_table <- function(
 
         # Transform
         # r_data_2 <- reactive({
-        #     data <- r_data()
+        #     data <- data()
         #
         #     group_by_ids <- input_ids()
         #     if (length(group_by_ids)) {
@@ -391,7 +390,7 @@ render_select_data_table <- function(
         #         data
         #     }
         # })
-        r_data_2 <- r_data
+        r_data_2 <- data
 
         # Render
         dtf::mod_render_dt_server(
