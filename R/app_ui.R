@@ -42,7 +42,11 @@ app_ui <- function(request) {
                         shinydashboard::menuSubItem("Addtional DT bundles",
                             tabName = "freq_table_bundles", icon = icon("arrow-right")),
                         shinydashboard::menuSubItem("Selectize",
-                            tabName = "freq_table_selectize", icon = icon("arrow-right"))
+                            tabName = "freq_table_selectize", icon = icon("arrow-right")),
+                        shinydashboard::menuSubItem("Pipe",
+                            tabName = "freq_table_via_pipe", icon = icon("arrow-right")),
+                        shinydashboard::menuSubItem("Pipe (selectize)",
+                            tabName = "freq_table_via_pipe_selectize", icon = icon("arrow-right"))
                     ),
                     shinyjs::hidden(
                         shinydashboard::menuItem("freq_table_hidden",
@@ -59,7 +63,9 @@ app_ui <- function(request) {
                         shinydashboard::menuSubItem("Enclosing box",
                             tabName = "select_outer", icon = icon("arrow-right")),
                         shinydashboard::menuSubItem("Selectize",
-                            tabName = "selectize", icon = icon("arrow-right"))
+                            tabName = "selectize", icon = icon("arrow-right")),
+                        shinydashboard::menuSubItem("Piped",
+                            tabName = "select_piped", icon = icon("arrow-right"))
                     ),
                     shinyjs::hidden(
                         shinydashboard::menuItem("select_hidden",
@@ -130,6 +136,36 @@ app_ui <- function(request) {
                         h3("Frequency table with selectize input"),
                         mod_freq_table2_ui(id = "freq_table_selectize")
                     ),
+                    shinydashboard::tabItem(
+                        tabName = "freq_table_via_pipe",
+                        vertical_space(2),
+                        h3("Frequency table via pipe"),
+                        # {
+                        #
+                        #     grouping_ui <- mod_group_by_ui(id = "freq_table_via_pipe_group_by")
+                        #     mod_freq_table3_ui(id = "freq_table_via_pipe_freq_table",
+                        #         grouping_ui = grouping_ui)
+                        # }
+                        mod_ui_wrapper(id = "test",
+                            {
+                                grouping_ui <- mod_group_by_ui(id = ns("freq_table_via_pipe_group_by"), verbose = FALSE)
+                                mod_freq_table3_ui(id = ns("freq_table_via_pipe_freq_table"),
+                                    grouping_ui = grouping_ui)
+                            }
+                        )
+                    ),
+                    shinydashboard::tabItem(
+                        tabName = "freq_table_via_pipe_selectize",
+                        vertical_space(2),
+                        h3("Frequency table via pipe (selectize)"),
+                        mod_ui_wrapper(id = "test2",
+                            {
+                            grouping_ui <- mod_group_by2_ui(id = ns("freq_table_via_pipe_selectize_group_by"))
+                            mod_freq_table3_ui(id = ns("freq_table_via_pipe_selectize_freq_table"),
+                                grouping_ui = grouping_ui)
+                            }
+                        )
+                    ),
 
                     # --- Select ---
                     shinydashboard::tabItem(
@@ -155,6 +191,24 @@ app_ui <- function(request) {
                         h3("Selectize"),
                         mod_select2_ui(id = "selectize", outer_box = TRUE, verbose = FALSE,
                             render_data = TRUE)
+                    ),
+                    shinydashboard::tabItem(
+                        tabName = "select_piped",
+                        vertical_space(2),
+                        h3("Select piped"),
+                        mod_ui_wrapper(id = "select_piped",
+                            {
+                                select_ui <- mod_select_ui(id = ns("select_ui"),
+                                    render_table = FALSE)
+                                # tagList(
+                                #     select_ui,
+                                #     dtf::mod_render_dt_ui(id = NULL,
+                                #         output_id = ns("select_tbl"), verbose = TRUE)
+                                # )
+                                mod_dt_ui(id = ns("select_tbl"),
+                                    select_ui = select_ui, verbose = TRUE)
+                            }
+                        )
                     ),
 
                     # --- Table: dt ---

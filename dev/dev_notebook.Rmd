@@ -25,11 +25,29 @@ x <- tibble::tribble(
     "B", "yes"
 )
 x %>% 
-    wrang::wr_freq_table(department, attrition, .digits_n_rel = 2)
+    wrang::summa_freq_table(department, attrition, .digits_n_rel = 2)
 ```
 
 ```{r}
 renv::install("styler", "shinyAce", "shinyjqui", "shinyEffects")
 shinydashboardPlus::shinydashboardPlusGallery()
+```
+
+```{r}
+x <- mtcars %>% 
+    dplyr::group_by(cyl, mpg)
+x <- mtcars
+
+x %>% dplyr::group_vars()
+
+y <- x %>%
+    wrang::summa_freq_table(
+        # !!!cols,
+        .col_n_abs = "n_abs",
+        .col_n_rel = "n_rel",
+        .sort = TRUE
+    )
+
+y
 ```
 

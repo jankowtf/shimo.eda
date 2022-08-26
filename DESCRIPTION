@@ -24,7 +24,7 @@ Imports:
     shinydashboardPlus (>= 2.0.4.9000),
     shinyjs,
     stringr,
-    wrang (>= 0.0.1.9003)
+    wrang (>= 0.0.1.9010)
 Suggests: 
     spelling,
     testthat (>= 3.0.0)

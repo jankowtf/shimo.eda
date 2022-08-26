@@ -155,7 +155,7 @@ mod_freq_table_ui <- function(
         ),
         # sortable::sortable_js(ns("group_by_ui")),
         tags$script(src = "shimo.eda.js"),
-        tags$script(paste0("shimo_eda_mod_freq_table_js('", ns(''), "')"))
+        tags$script(paste0("mod_group_by_js('", ns(''), "')"))
     )
 
     if (outer_box) {
@@ -220,15 +220,13 @@ mod_freq_table_server <- function(
             input_values = input_values
         )
 
-        render_grouping_ui(
-            fn = fn_group_by_ui
-        )
+        render_ui(fn = fn_group_by_ui, output_id = "grouping_ui")
 
         # --- Remove UI ---
         remove_grouping_ui(id = NULL)
 
         # --- Freq table ---
-        data_freq_table <- reactive_freq_table(
+        data_freq_table <- reactive_freq_table_all_incl(
             id = NULL,
             data = data,
             input_ids = input_ids,
@@ -345,40 +343,40 @@ create_group_by_ui <- function(
 
 # Remove inputs -----------------------------------------------------------
 
-remove_grouping_ui <- function(
-    id = NULL
-) {
-    shiny::moduleServer(id, function(input, output, session) {
-        ns <- session$ns
-
-        observeEvent(input$ui_to_delete_id, {
-            # browser()
-            button_id <- input$ui_to_delete_id
-
-            if (length(button_id) &&
-                    button_id != ""
-            ) {
-                select_id <- button_id %>% derive_input_id_from_button_id(
-                    button_prefix = "del_"
-                )
-
-                # --- Approach 1: imperative removal
-                # if (select_id %in% names(ui_existing)) {
-                #     ui_existing[select_id] <- NULL
-                # }
-                # -> nope
-
-                # --- Approach 2: declarative removal
-                removeUI(
-                    selector = "#{select_id}" %>% stringr::str_glue()
-                )
-                shinyjs::runjs('Shiny.onInputChange("{select_id}", null)' %>%
-                        stringr::str_glue())
-                # -> yes
-            }
-        }, ignoreInit = TRUE)
-    })
-}
+# remove_grouping_ui <- function(
+#     id = NULL
+# ) {
+#     shiny::moduleServer(id, function(input, output, session) {
+#         ns <- session$ns
+#
+#         observeEvent(input$ui_to_delete_id, {
+#             # browser()
+#             button_id <- input$ui_to_delete_id
+#
+#             if (length(button_id) &&
+#                     button_id != ""
+#             ) {
+#                 select_id <- button_id %>% derive_input_id_from_button_id(
+#                     button_prefix = "del_"
+#                 )
+#
+#                 # --- Approach 1: imperative removal
+#                 # if (select_id %in% names(ui_existing)) {
+#                 #     ui_existing[select_id] <- NULL
+#                 # }
+#                 # -> nope
+#
+#                 # --- Approach 2: declarative removal
+#                 removeUI(
+#                     selector = "#{select_id}" %>% stringr::str_glue()
+#                 )
+#                 shinyjs::runjs('Shiny.onInputChange("{select_id}", null)' %>%
+#                         stringr::str_glue())
+#                 # -> yes
+#             }
+#         }, ignoreInit = TRUE)
+#     })
+# }
 
 # Handle existing inputs --------------------------------------------------
 

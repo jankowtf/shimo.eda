@@ -33,32 +33,17 @@
 #'
 #' @importFrom shiny NS tagList
 #' @export
-mod_freq_table2_ui <- function(
+mod_group_by2_ui <- function(
     id = "freq_table",
     ns = function() {},
     # --- Grouping
     grouping_title = "Group by",
     grouping_width = 12,
-    grouping_button_label = "Add group-by statement",
-    grouping_button_class = "btn-primary",
-    # grouping_button_style = "background: #0c3992;color: #fffff;",
-    grouping_button_icon = icon('plus'),
-    grouping_button_width = 190,
     grouping.button_submit_label = "Submit",
     grouping.button_submit_class = "btn-success",
     grouping.button_submit_style = "color: #fff;",
     grouping.button_submit_icon = icon('check'),
     grouping.button_submit_width = 100,
-    # --- Freq table
-    freq.box_title = "Frequency table",
-    freq.box_width = 12,
-    freq.box_title_width= 200,
-    freq.dropdown_title = "Column names",
-    freq.dropdown_width= 150,
-    freq.dropdown_col_n_abs_label = "Name for abs. count",
-    freq.dropdown_col_n_rel_label = "Name for rel. count",
-    freq.col_n_abs = "n_abs",
-    freq.col_n_rel = "n_rel",
     # --- Outer
     outer_box = FALSE,
     outer_title = "Frequency table",
@@ -72,7 +57,7 @@ mod_freq_table2_ui <- function(
     ns <- NS(id)
 
     shiny_trace_ns_ui(
-        fn_name = "mod_freq_table_ui",
+        fn_name = "mod_group_by_ui",
         id_inner = "foo",
         ns = ns,
         verbose = verbose
@@ -106,47 +91,7 @@ mod_freq_table2_ui <- function(
                 #     #     value = freq.col_n_rel)
                 # )
             )
-        ),
-        fluidRow(
-            shinydashboardPlus::box(
-                # title = freq.box_title,
-                title = div(
-                    div(
-                        style = "display: inline-block;vertical-align:middle;width:{freq.box_title_width};" %>%
-                            stringr::str_glue(),
-                        h4(freq.box_title)
-                    ),
-                    shiny::div(
-                        style = "display: inline-block;vertical-align:middle;width:{freq.dropdown_width}px;" %>%
-                            stringr::str_glue(),
-                        shinyWidgets::dropdownButton(
-                            h4(freq.dropdown_title),
-                            textInput(ns("col_n_abs"),
-                                label = freq.dropdown_col_n_abs_label,
-                                value = freq.col_n_abs),
-                            textInput(ns("col_n_rel"),
-                                label = freq.dropdown_col_n_rel_label,
-                                value = freq.col_n_rel),
-                            circle = TRUE,
-                            size = "xs",
-                            status = "danger",
-                            icon = icon("gear", verfiy_fa = FALSE),
-                            width = "150px",
-                            tooltip = shinyWidgets::tooltipOptions(
-                                title = "Click to see inputs")
-                        )
-                    )
-                ),
-                width = freq.box_width,
-                collapsible = TRUE,
-
-                vertical_space(1),
-                DT::DTOutput(ns("grouping_tbl"))
-            ),
-        ),
-        # sortable::sortable_js(ns("group_by_ui")),
-        tags$script(src = "shimo.eda.js"),
-        tags$script(paste0("mod_group_by_js('", ns(''), "')"))
+        )
     )
 
     if (outer_box) {
@@ -180,9 +125,9 @@ mod_freq_table2_ui <- function(
 #' @param dt.left [[integer]] DT: columns to fix from the left
 #'
 #' @export
-mod_freq_table2_server <- function(
-    id = "freq_table",
+mod_group_by2_server <- function(
     data,
+    id = "group_by",
     dt_bundle_buttons = dtf::dt_bundle_buttons_en,
     dt_bundle_internationalization = dtf::dt_bundle_internationalization_en,
     dt_bundles_additional = list(),
@@ -190,9 +135,8 @@ mod_freq_table2_server <- function(
     dt.filter = dtf::valid_dt_filter_values(1),
     dt.scroll_y = 300,
     dt.left = 1L,
-    verbose = FALSE,
-    fn_group_by_ui = create_selectize_ui,
-    input_id_prefix = "grouping_input"
+    dt_ignore_null = TRUE,
+    verbose = FALSE
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
@@ -202,40 +146,54 @@ mod_freq_table2_server <- function(
         input_values <- get_input_values(input_ids = input_ids)
 
         shiny_trace_ns_server(
-            fn_name = "mod_freq_table_server",
+            fn_name = "mod_group_by_server",
             id_inner = input_ids,
             verbose = verbose
         )
 
-        fn_group_by_ui <- fn_group_by_ui(
-            data = data,
-            input_id_prefix = input_id_prefix,
-            width = "100%"
+        grouping_ui_fn <- create_group_by2_ui(
+            data = data
         )
 
-        render_ui(fn = fn_group_by_ui, output_id = "grouping_ui")
+        render_ui(fn = grouping_ui_fn, output_id = "grouping_ui")
 
-        # --- Freq table ---
-        data_freq_table <- reactive_freq_table_all_incl(
+        # --- Group by ---
+        data_grouped <- reactive_group_by(
             id = NULL,
             data = data,
             input_ids = input_ids,
             input_values = input_values,
-            ignore_null = FALSE
+            ignore_null = dt_ignore_null
         )
 
-        # --- Render data table ---
-        render_freq_table(
-            id = NULL,
-            data = data_freq_table,
-            dt_bundle_buttons = dt_bundle_buttons,
-            dt_bundle_internationalization = dt_bundle_internationalization,
-            dt_bundles_additional = dt_bundles_additional,
-            dt.filter = dt.filter,
-            dt.scroll_y = dt.scroll_y,
-            dt.left = dt.left,
-            transform_fn = transform_fn,
-            event_id = "submit"
-        )
+        return(data_grouped)
+    })
+}
+
+# Create inputs -----------------------------------------------------------
+
+create_group_by2_ui <- function(
+    id = NULL,
+    data,
+    input_id = "grouping_input",
+    label = NULL,
+    width = "100%",
+    ...
+) {
+    shiny::moduleServer(id, function(input, output, session) {
+        ns <- session$ns
+
+        shiny::reactive({
+            cols <- data() %>% names()
+
+            shiny::selectizeInput(
+                inputId = ns(input_id),
+                label = NULL,
+                choices = cols,
+                multiple = TRUE,
+                width = width
+            )
+
+        })
     })
 }

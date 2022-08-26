@@ -115,7 +115,7 @@ mod_select2_server <- function(
     dt_bundle_buttons = dtf::dt_bundle_buttons_en,
     dt_bundle_internationalization = dtf::dt_bundle_internationalization_en,
     verbose = FALSE,
-    fn_select_ui = create_selectize_ui,
+    select_ui_fn = create_selectize_ui,
     render_data = FALSE
 ) {
     shiny::moduleServer(id, function(input, output, session) {
@@ -131,12 +131,12 @@ mod_select2_server <- function(
             verbose = verbose
         )
 
-        fn_select_ui <- fn_select_ui(
+        select_ui_fn <- select_ui_fn(
             data = data,
             input_id_prefix = input_id_prefix
         )
 
-        render_select_ui(id = NULL, fn_select_ui = fn_select_ui)
+        render_ui(fn = select_ui_fn, output_id = "select_ui")
 
         data_selected <- reactive_select(
             id = NULL,
@@ -172,7 +172,8 @@ create_selectize_ui <- function(
     id = NULL,
     data,
     input_id_prefix = "selectize_input",
-    width = "50%"
+    width = "50%",
+    ...
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns

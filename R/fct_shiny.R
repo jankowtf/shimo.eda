@@ -58,7 +58,7 @@ shiny_font_size_perc <- function(
     # shiny::moduleServer(.id, function(input, output, session) {
     #     ns <- session$ns
 
-        shiny::div(value, style = "font-size:{size}%;" %>% stringr::str_glue())
+    shiny::div(value, style = "font-size:{size}%;" %>% stringr::str_glue())
     # })
 }
 
@@ -90,5 +90,74 @@ rea_handle_data_input <- function(
                 data()
             }
         })
+    })
+}
+
+
+# Render ------------------------------------------------------------------
+
+render_ui <- function(
+    id = NULL,
+    fn,
+    output_id
+) {
+    shiny::moduleServer(id, function(input, output, session) {
+        ns <- session$ns
+
+        output[[output_id]] <- renderUI({
+            fn()
+        })
+    })
+}
+
+render_data_table <- function(
+    id = NULL,
+    data,
+    output_id,
+    scroll_y = 300,
+    left = 1L,
+    dt_bundle_buttons = dtf::dt_bundle_buttons_en,
+    dt_bundle_internationalization = dtf::dt_bundle_internationalization_en
+) {
+    shiny::moduleServer(id, function(input, output, session) {
+        ns <- session$ns
+
+        dtf::mod_render_dt_server(
+            id = id,
+            output_id = output_id,
+            data = data,
+            scrollY = scroll_y,
+            left = left,
+            .bundles = list(
+                dt_bundle_buttons(),
+                dt_bundle_internationalization()
+            )
+        )
+    })
+}
+
+
+# Generic mod UI ----------------------------------------------------------
+
+mod_ui_wrapper <- function(id, ..., env = environment()) {
+    ns <- NS(id)
+
+    # x <- rlang::quo(...)
+    x <- substitute(...)
+    tagList(rlang::eval_tidy(x, env = env))
+
+    # tagList(...)
+}
+
+mod_server_wrapper <- function(
+    id,
+    ...
+) {
+    shiny::moduleServer(id, function(input, output, session) {
+        ns <- session$ns
+        # browser()
+        # rlang::eval_tidy(...)
+        x <- rlang::quo(...)
+        rlang::eval_tidy(x)
     })
 }

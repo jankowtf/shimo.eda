@@ -109,7 +109,7 @@ mod_group_by_ui <- function(
 
         # sortable::sortable_js(ns("group_by_ui")),
         tags$script(src = "shimo.eda.js"),
-        tags$script(paste0("shimo_eda_mod_group_by_js('", ns(''), "')"))
+        tags$script(paste0("mod_group_by_js('", ns(''), "')"))
     )
 
     if (outer_box) {
@@ -144,8 +144,8 @@ mod_group_by_ui <- function(
 #'
 #' @export
 mod_group_by_server <- function(
-    id = "group_by",
     data,
+    id = "group_by",
     dt_bundle_buttons = dtf::dt_bundle_buttons_en,
     dt_bundle_internationalization = dtf::dt_bundle_internationalization_en,
     dt_bundles_additional = list(),
@@ -153,6 +153,7 @@ mod_group_by_server <- function(
     dt.filter = dtf::valid_dt_filter_values(1),
     dt.scroll_y = 300,
     dt.left = 1L,
+    dt_ignore_null = TRUE,
     verbose = FALSE
 ) {
     shiny::moduleServer(id, function(input, output, session) {
@@ -168,15 +169,13 @@ mod_group_by_server <- function(
             verbose = verbose
         )
 
-        fn_group_by_ui <- create_group_by_ui(
+        grouping_ui_fn <- create_group_by_ui(
             data = data,
             input_ids = input_ids,
             input_values = input_values
         )
 
-        render_grouping_ui(
-            fn = fn_group_by_ui
-        )
+        render_ui(fn = grouping_ui_fn, output_id = "grouping_ui")
 
         # --- Remove UI ---
         remove_grouping_ui(id = NULL)
@@ -186,7 +185,8 @@ mod_group_by_server <- function(
             id = NULL,
             data = data,
             input_ids = input_ids,
-            input_values = input_values
+            input_values = input_values,
+            ignore_null = dt_ignore_null
         )
 
         return(data_grouped)
@@ -200,7 +200,8 @@ create_group_by_ui <- function(
     data,
     input_ids,
     input_values,
-    input_id_prefix = "grouping_input"
+    input_id_prefix = "grouping_input",
+    ...
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
@@ -294,7 +295,6 @@ remove_grouping_ui <- function(
         ns <- session$ns
 
         observeEvent(input$ui_to_delete_id, {
-            # browser()
             button_id <- input$ui_to_delete_id
 
             if (length(button_id) &&
@@ -368,21 +368,5 @@ handle_existing_grouping_inputs <- function(
         } else {
             NULL
         }
-    })
-}
-
-# Render UI ---------------------------------------------------------------
-
-render_grouping_ui <- function(
-    id = NULL,
-    fn,
-    output_id = "grouping_ui"
-) {
-    shiny::moduleServer(id, function(input, output, session) {
-        ns <- session$ns
-
-        output[[output_id]] <- renderUI({
-            fn()
-        })
     })
 }

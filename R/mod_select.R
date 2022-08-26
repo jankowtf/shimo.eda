@@ -16,7 +16,7 @@
 #' @param outer_title
 #' @param outer_width
 #' @param verbose [[logical]] Tracing infos yes/no
-#' @param render_data [[logical]] Render data table yes/no
+#' @param render_table [[logical]] Render data table yes/no
 #'
 #' @description A shiny Module.
 #'
@@ -40,7 +40,7 @@ mod_select_ui <- function(
     select_button_submit_icon = icon('check'),
     select_button_submit_width = 100,
     # --- Data
-    render_data = TRUE,
+    render_table = TRUE,
     data_title = "Data table",
     data_width = 12,
     # --- Outer
@@ -87,7 +87,7 @@ mod_select_ui <- function(
                 )
             )
         ),
-        if (render_data) {
+        if (render_table) {
             fluidRow(
                 shinydashboardPlus::box(
                     width = data_width,
@@ -123,7 +123,7 @@ mod_select_ui <- function(
 #' @param dt_bundle_buttons [[function]] Seet [[dtf::dt_bundle_buttons]]
 #' @param dt_bundle_internationalization [[function]] Seet [[dtf::dt_bundle_internationalization]]
 #' @param verbose [[logical]] Tracing infos yes/no
-#' @param render_data [[logical]] Render data table yes/no
+#' @param render_table [[logical]] Render data table yes/no
 #'
 #' @export
 mod_select_server <- function(
@@ -133,8 +133,8 @@ mod_select_server <- function(
     dt_bundle_buttons = dtf::dt_bundle_buttons_en,
     dt_bundle_internationalization = dtf::dt_bundle_internationalization_en,
     verbose = FALSE,
-    fn_select_ui = create_select_ui,
-    render_data = TRUE
+    select_ui_fn = create_select_ui,
+    render_table = TRUE
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
@@ -150,14 +150,14 @@ mod_select_server <- function(
             verbose = verbose
         )
 
-        fn_select_ui <- fn_select_ui(
+        select_ui_fn <- select_ui_fn(
             data = data,
             input_ids = input_ids,
             input_values = input_values,
             input_id_prefix = input_id_prefix
         )
 
-        render_select_ui(id = NULL, fn_select_ui = fn_select_ui)
+        render_ui(fn = select_ui_fn, output_id = "select_ui")
 
         # --- Remove select UI ---
         remove_select_ui(id = NULL)
@@ -173,18 +173,16 @@ mod_select_server <- function(
         )
 
         # --- Render data table ---
-        if (render_data) {
+        if (render_table) {
             render_select_data_table(
                 id = NULL,
                 data = data_selected,
-                input_ids = input_ids,
-                input_values = input_values,
                 dt_bundle_buttons = dt_bundle_buttons,
                 dt_bundle_internationalization = dt_bundle_internationalization
             )
-        } else {
-            data_selected
         }
+
+        data_selected
     })
 }
 
@@ -330,22 +328,6 @@ handle_existing_select_inputs <- function(
     })
 }
 
-# Render UI ---------------------------------------------------------------
-
-render_select_ui <- function(
-    id = NULL,
-    fn_select_ui,
-    output_id = "select_ui"
-) {
-    shiny::moduleServer(id, function(input, output, session) {
-        ns <- session$ns
-
-        output[[output_id]] <- renderUI({
-            fn_select_ui()
-        })
-    })
-}
-
 # Render data table -------------------------------------------------------
 
 #' Title
@@ -362,41 +344,18 @@ render_select_ui <- function(
 render_select_data_table <- function(
     id = NULL,
     data,
-    input_ids,
-    input_values,
+    # input_ids,
+    # input_values,
     dt_bundle_buttons = dtf::dt_bundle_buttons_en,
     dt_bundle_internationalization = dtf::dt_bundle_internationalization_en
 ) {
     shiny::moduleServer(id, function(input, output, session) {
         ns <- session$ns
 
-        # Transform
-        # r_data_2 <- reactive({
-        #     data <- data()
-        #
-        #     group_by_ids <- input_ids()
-        #     if (length(group_by_ids)) {
-        #         cols <- input_values() %>% unname() %>% dplyr::syms()
-        #         if (length(cols)) {
-        #
-        #             # data %>%
-        #             #     wrang::wr_freq_table(!!!cols)
-        #             data %>%
-        #                 dplyr::select(!!!cols)
-        #         } else {
-        #             data
-        #         }
-        #     } else {
-        #         data
-        #     }
-        # })
-        r_data_2 <- data
-
-        # Render
         dtf::mod_render_dt_server(
             id = id,
             output_id = "select_tbl",
-            data = r_data_2,
+            data = data,
             scrollY = 300,
             left = 1,
             .bundles = list(

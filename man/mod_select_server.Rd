@@ -11,8 +11,8 @@ mod_select_server(
   dt_bundle_buttons = dtf::dt_bundle_buttons_en,
   dt_bundle_internationalization = dtf::dt_bundle_internationalization_en,
   verbose = FALSE,
-  fn_select_ui = create_select_ui,
-  render_data = TRUE
+  select_ui_fn = create_select_ui,
+  render_table = TRUE
 )
 }
 \arguments{
@@ -24,7 +24,7 @@ mod_select_server(
 
 \item{verbose}{[\link{logical}] Tracing infos yes/no}
 
-\item{render_data}{[\link{logical}] Render data table yes/no}
+\item{render_table}{[\link{logical}] Render data table yes/no}
 }
 \description{
 export Server Function

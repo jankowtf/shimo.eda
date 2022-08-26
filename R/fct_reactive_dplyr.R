@@ -37,7 +37,7 @@ reactive_select <- function(
                 if (length(cols)) {
 
                     # data %>%
-                    #     wrang::wr_freq_table(!!!cols)
+                    #     wrang::summa_freq_table(!!!cols)
                     data %>%
                         dplyr::select(!!!cols)
                 } else {
@@ -79,7 +79,7 @@ reactive_group_by <- function(
     })
 }
 
-reactive_freq_table <- function(
+reactive_freq_table_all_incl <- function(
     id = NULL,
     data,
     input_ids,
@@ -103,7 +103,7 @@ reactive_freq_table <- function(
                 cols <- input_values() %>% unname() %>% dplyr::syms()
                 if (length(cols)) {
                     data %>%
-                        wrang::wr_freq_table(
+                        wrang::summa_freq_table(
                             !!!cols,
                             .col_n_abs = rlang::eval_bare(.col_n_abs),
                             .col_n_rel = rlang::eval_tidy(.col_n_rel),
@@ -116,7 +116,7 @@ reactive_freq_table <- function(
                 # data
                 cols <- data %>% names()
                 data %>%
-                    wrang::wr_freq_table(
+                    wrang::summa_freq_table(
                         !!!cols,
                         .col_n_abs = rlang::eval_bare(.col_n_abs),
                         .col_n_rel = rlang::eval_tidy(.col_n_rel),
@@ -124,5 +124,31 @@ reactive_freq_table <- function(
                     )
             }
         }, ignoreNULL = ignore_null)
+    })
+}
+
+reactive_freq_table <- function(
+    id = NULL,
+    data,
+    col_n_abs = "col_n_abs",
+    col_n_rel = "col_n_rel",
+    sort = TRUE,
+    ignore_null = TRUE
+) {
+    shiny::moduleServer(id, function(input, output, session) {
+        ns <- session$ns
+
+        reactive({
+            data <- data()
+            .col_n_abs <- input[[col_n_abs]]
+            .col_n_rel <-  input[[col_n_rel]]
+
+            data %>%
+                wrang::summa_freq_table(
+                    .col_n_abs = rlang::eval_bare(.col_n_abs),
+                    .col_n_rel = rlang::eval_tidy(.col_n_rel),
+                    .sort = sort
+                )
+        })
     })
 }

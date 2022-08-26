@@ -7,8 +7,6 @@
 render_select_data_table(
   id = NULL,
   data,
-  input_ids,
-  input_values,
   dt_bundle_buttons = dtf::dt_bundle_buttons_en,
   dt_bundle_internationalization = dtf::dt_bundle_internationalization_en
 )

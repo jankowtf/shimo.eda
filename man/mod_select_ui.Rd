@@ -21,7 +21,7 @@ mod_select_ui(
   select_button_submit_style = "color: #fff;",
   select_button_submit_icon = icon("check"),
   select_button_submit_width = 100,
-  render_data = TRUE,
+  render_table = TRUE,
   data_title = "Data table",
   data_width = 12,
   outer_box = FALSE,
@@ -35,7 +35,7 @@ mod_select_ui(
 
 \item{ns}{[\link{function}] Namespace function}
 
-\item{render_data}{[\link{logical}] Render data table yes/no}
+\item{render_table}{[\link{logical}] Render data table yes/no}
 
 \item{verbose}{[\link{logical}] Tracing infos yes/no}
 }
